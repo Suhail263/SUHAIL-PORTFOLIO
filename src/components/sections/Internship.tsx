@@ -6,58 +6,145 @@ import { internships } from '@/data/resume';
 
 export function Internship() {
   return (
-    <section id="internship" className="section">
-      <div className="container-max">
+    <section
+      id="internship"
+      className="section relative isolate overflow-hidden"
+    >
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage: `
+            linear-gradient(
+              to right,
+              rgba(5, 8, 20, 0.97) 0%,
+              rgba(5, 8, 20, 0.82) 45%,
+              rgba(5, 8, 20, 0.50) 100%
+            ),
+            linear-gradient(
+              to bottom,
+              rgba(5, 8, 20, 0.65),
+              rgba(5, 8, 20, 0.90)
+            ),
+            url('/images/internship-background.png')
+          `,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center right',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+
+      {/* Blue Glow */}
+      <div
+        className="absolute inset-0 -z-10 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.12), transparent 45%)',
+        }}
+      />
+
+      <div className="container-max relative z-10">
         <SectionHeading
           eyebrow="Internship"
           title="Hands-on experience, applied early."
         />
 
         <div className="relative pl-8">
-          <div className="absolute left-[15px] top-2 bottom-2 w-px" style={{ background: 'var(--glass-border)' }} />
+          {/* Timeline Line */}
+          <div
+            className="absolute left-[15px] top-2 bottom-2 w-px"
+            style={{
+              background: 'var(--glass-border)',
+            }}
+          />
+
           <div className="space-y-8">
             {internships.map((item, i) => (
               <motion.div
                 key={item.organization}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                viewport={{
+                  once: true,
+                  margin: '-60px',
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.1,
+                }}
                 className="relative"
               >
+                {/* Timeline Icon */}
                 <span
                   className="absolute -left-8 top-1 w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ background: 'var(--color-bg)', border: '1px solid var(--glass-border)', color: 'var(--color-accent)' }}
+                  style={{
+                    background: 'rgba(10, 15, 30, 0.95)',
+                    border: '1px solid var(--glass-border)',
+                    color: 'var(--color-accent)',
+                  }}
                 >
                   <Briefcase size={14} />
                 </span>
 
+                {/* Internship Card */}
                 <GlassCard className="p-6">
-                  <h3 className="text-lg font-semibold">{item.role}</h3>
-                  <p className="text-sm mt-1" style={{ color: 'var(--color-accent)' }}>
+                  <h3 className="text-lg font-semibold">
+                    {item.role}
+                  </h3>
+
+                  <p
+                    className="text-sm mt-1"
+                    style={{
+                      color: 'var(--color-accent)',
+                    }}
+                  >
                     {item.organization}
                   </p>
 
+                  {/* Responsibilities */}
                   <div className="mt-4">
-                    <p className="text-xs uppercase tracking-wide mb-2" style={{ color: 'var(--color-text-faint)' }}>
+                    <p
+                      className="text-xs uppercase tracking-wide mb-2"
+                      style={{
+                        color: 'var(--color-text-faint)',
+                      }}
+                    >
                       Responsibilities
                     </p>
+
                     <ul className="space-y-1.5">
                       {item.responsibilities.map((r) => (
-                        <li key={r} className="text-sm leading-relaxed flex gap-2" style={{ color: 'var(--color-text-muted)' }}>
-                          <span style={{ color: 'var(--color-accent)' }}>—</span>
+                        <li
+                          key={r}
+                          className="text-sm leading-relaxed flex gap-2"
+                          style={{
+                            color: 'var(--color-text-muted)',
+                          }}
+                        >
+                          <span
+                            style={{
+                              color: 'var(--color-accent)',
+                            }}
+                          >
+                            —
+                          </span>
+
                           {r}
                         </li>
                       ))}
                     </ul>
                   </div>
 
+                  {/* Skills Learned */}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.skillsLearned.map((skill) => (
                       <span
                         key={skill}
                         className="text-xs px-2.5 py-1 rounded-full"
-                        style={{ background: 'var(--glass-fill-strong)', color: 'var(--color-text-muted)' }}
+                        style={{
+                          background: 'var(--glass-fill-strong)',
+                          color: 'var(--color-text-muted)',
+                        }}
                       >
                         {skill}
                       </span>

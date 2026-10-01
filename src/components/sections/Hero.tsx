@@ -1,20 +1,28 @@
-import { useEffect, useState, lazy, Suspense, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Download, Mail } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowDown,
+  Download,
+  Mail,
+  GraduationCap,
+  Box,
+  Zap,
+} from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+
 import { Button } from '@/components/ui/Button';
 import { Magnetic } from '@/components/ui/Magnetic';
-import { useParallax } from '@/hooks/useParallax';
 import { profile } from '@/data/resume';
-import photo from '@/assets/suhail-photo.jpeg';
 
-const NeuralBackground = lazy(() =>
-  import('@/components/three/NeuralBackground').then((m) => ({ default: m.NeuralBackground })),
-);
+const ROLE_WORDS = [
+  'Artificial Intelligence',
+  'Data Science',
+  'Machine Learning',
+  'Full Stack Development',
+];
 
-const ROLE_WORDS = ['Data Science', 'Artificial Intelligence', 'Machine Learning', 'Software Engineering'];
-
-function useTypewriter(words: string[], speed = 70, pause = 1400) {
+function useTypewriter(words: string[], speed = 65, pause = 1600) {
   const [text, setText] = useState('');
   const [wordIndex, setWordIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
@@ -24,14 +32,20 @@ function useTypewriter(words: string[], speed = 70, pause = 1400) {
     let timeout: number;
 
     if (!deleting && text.length < current.length) {
-      timeout = window.setTimeout(() => setText(current.slice(0, text.length + 1)), speed);
+      timeout = window.setTimeout(
+        () => setText(current.slice(0, text.length + 1)),
+        speed,
+      );
     } else if (!deleting && text.length === current.length) {
       timeout = window.setTimeout(() => setDeleting(true), pause);
     } else if (deleting && text.length > 0) {
-      timeout = window.setTimeout(() => setText(current.slice(0, text.length - 1)), speed / 2);
+      timeout = window.setTimeout(
+        () => setText(current.slice(0, text.length - 1)),
+        speed / 2,
+      );
     } else {
       setDeleting(false);
-      setWordIndex((i) => i + 1);
+      setWordIndex((i) => (i + 1) % words.length);
     }
 
     return () => window.clearTimeout(timeout);
@@ -42,170 +56,290 @@ function useTypewriter(words: string[], speed = 70, pause = 1400) {
 
 export function Hero() {
   const typed = useTypewriter(ROLE_WORDS);
-  const contentRef = useRef<HTMLDivElement>(null);
-  useParallax(contentRef, 60);
 
-  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
-      <Suspense fallback={null}>
-        <NeuralBackground />
-      </Suspense>
-
+    <section
+      id="home"
+      className="relative min-h-screen overflow-hidden flex items-center bg-[#030814] text-white"
+    >
+      {/* BACKGROUND IMAGE */}
       <div
-        ref={contentRef}
-        className="container-max relative z-10 pt-32 pb-20 grid lg:grid-cols-[1.15fr,0.85fr] gap-12 items-center"
-      >
-        {/* Left: text content */}
-        <div>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm tracking-[0.25em] uppercase mb-6"
-            style={{ color: 'var(--color-accent)' }}
-          >
-            Available for Graduate Engineering roles
-          </motion.p>
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('/images/hero-background.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          transform: 'translateX(8%) scale(1.12)',
+          transformOrigin: 'center center',
+        }}
+      />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
+      {/* DARK OVERLAY — keeps the left text readable */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            linear-gradient(
+              90deg,
+              rgba(3, 8, 20, 0.98) 0%,
+              rgba(3, 8, 20, 0.92) 28%,
+              rgba(3, 8, 20, 0.68) 45%,
+              rgba(3, 8, 20, 0.20) 72%,
+              rgba(3, 8, 20, 0.12) 100%
+            ),
+            linear-gradient(
+              0deg,
+              rgba(3, 8, 20, 0.80) 0%,
+              transparent 45%,
+              rgba(3, 8, 20, 0.20) 100%
+            )
+          `,
+        }}
+      />
+
+      {/* BLUE GLOW */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle at 75% 35%, rgba(0, 140, 255, 0.16), transparent 38%)',
+        }}
+      />
+
+      {/* MAIN CONTENT */}
+      <div className="container-max relative z-10 w-full pt-32 pb-28">
+        <div className="max-w-[540px]">
+
+          {/* ROLE BADGE */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] font-semibold"
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-3 rounded-full border border-cyan-400/20 bg-[#07172b]/80 px-5 py-3 backdrop-blur-md"
           >
-            {profile.name.split(' ').slice(0, 2).join(' ')}
+            <span className="text-xs md:text-sm tracking-wide text-white">
+              AI ENGINEER
+            </span>
+
+            <span className="text-cyan-400">|</span>
+
+            <span className="text-xs md:text-sm tracking-wide text-white">
+              FULL STACK DEVELOPER
+            </span>
+
+            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399]" />
+          </motion.div>
+
+          {/* NAME */}
+          <motion.h1
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mt-6 text-[clamp(4rem,8vw,7.5rem)] font-bold leading-[0.88] tracking-[-0.065em]"
+          >
+            <span className="block text-white">Suhail</span>
+
+            <span
+              className="block bg-gradient-to-r from-indigo-500 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
+            >
+              Khan
+            </span>
           </motion.h1>
 
+          {/* SIGNATURE */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 text-[clamp(1.1rem,2.2vw,1.6rem)]"
-            style={{ color: 'var(--color-text-muted)' }}
+            initial={{ opacity: 0, x: -15 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-5 flex items-center gap-3"
           >
-            Engineering with{' '}
-            <span style={{ color: 'var(--color-text)' }}>
-              {typed}
-              <span className="inline-block w-[2px] h-[1em] ml-1 align-middle animate-pulse" style={{ background: 'var(--color-accent)' }} />
+            <span className="text-2xl md:text-3xl italic font-light tracking-tight text-white/90">
+              SK
+            </span>
+
+            <span className="h-px w-14 bg-gradient-to-r from-cyan-400 to-transparent" />
+
+            <span className="text-sm tracking-[0.18em] uppercase text-cyan-300">
+              Innovate · Build · Create
             </span>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
+          {/* ANIMATED ROLE */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 max-w-lg text-base leading-relaxed"
-            style={{ color: 'var(--color-text-muted)' }}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="mt-6 text-xl md:text-2xl font-medium text-white/85"
           >
-            B.Tech Computer Science graduate specializing in Data Science &amp; AI — turning data
-            into decisions and ideas into working software.
+            Building with{' '}
+            <span className="text-cyan-300">
+              {typed}
+              <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse align-middle bg-cyan-400" />
+            </span>
+          </motion.div>
+
+          {/* DESCRIPTION */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.35 }}
+            className="mt-5 max-w-[480px] text-base md:text-lg leading-relaxed text-white/75"
+          >
+            Computer Science student specializing in AI &amp; Data Science.
+            Full Stack Developer turning ideas into real-world solutions
+            through code, creativity, and curiosity.
           </motion.p>
 
+          {/* ACTION BUTTONS */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="mt-8 flex flex-wrap items-center gap-4"
           >
             <Magnetic>
-              <Button variant="primary" onClick={() => scrollTo('projects')}>
+              <Button
+                variant="primary"
+                onClick={() => scrollTo('projects')}
+                icon={<ArrowRight size={18} />}
+              >
                 Explore Projects
               </Button>
             </Magnetic>
+
             <Magnetic>
-              <Button as="a" variant="ghost" href="/resume/Suhail_Khan_Resume.pdf" download icon={<Download size={16} />}>
+              <Button
+                as="a"
+                variant="ghost"
+                href="/resume/Suhail_Khan_Resume.pdf"
+                download
+                icon={<Download size={17} />}
+              >
                 Download Resume
               </Button>
             </Magnetic>
-            <Magnetic>
-              <Button variant="ghost" onClick={() => scrollTo('contact')} icon={<Mail size={16} />}>
-                Hire Me
-              </Button>
-            </Magnetic>
+          </motion.div>
 
-            {(profile.github || profile.linkedin) && (
-              <div className="flex items-center gap-3 ml-1">
-                {profile.github && (
-                  <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub" className="opacity-70 hover:opacity-100 transition-opacity">
-                    <FaGithub size={20} />
-                  </a>
-                )}
-                {profile.linkedin && (
-                  <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="opacity-70 hover:opacity-100 transition-opacity">
-                    <FaLinkedin size={20} />
-                  </a>
-                )}
-              </div>
+          {/* SOCIAL LINKS */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="mt-6 flex items-center gap-5"
+          >
+            {profile.github && (
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+                className="text-white/75 transition-colors hover:text-cyan-400"
+              >
+                <FaGithub size={23} />
+              </a>
             )}
+
+            {profile.linkedin && (
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                className="text-white/75 transition-colors hover:text-cyan-400"
+              >
+                <FaLinkedin size={23} />
+              </a>
+            )}
+
+            <button
+              onClick={() => scrollTo('contact')}
+              className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-cyan-300"
+            >
+              <Mail size={17} />
+              Let's Talk
+              <ArrowRight size={15} />
+            </button>
+          </motion.div>
+
+          {/* STATS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-10 flex flex-wrap gap-4"
+          >
+            {/* CGPA */}
+            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-cyan-400/25 bg-[#061327]/75 px-5 py-4 backdrop-blur-md">
+              <GraduationCap className="text-cyan-400" size={30} />
+
+              <div>
+                <p className="text-2xl font-semibold text-white">7.67</p>
+                <p className="text-xs text-white/60">CGPA</p>
+              </div>
+            </div>
+
+            {/* PROJECTS */}
+            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-cyan-400/25 bg-[#061327]/75 px-5 py-4 backdrop-blur-md">
+              <Box className="text-cyan-400" size={30} />
+
+              <div>
+                <p className="text-2xl font-semibold text-white">10+</p>
+                <p className="text-xs text-white/60">Projects</p>
+              </div>
+            </div>
+
+            {/* INTERNSHIPS */}
+            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-cyan-400/25 bg-[#061327]/75 px-5 py-4 backdrop-blur-md">
+              <Zap className="text-cyan-400" size={30} />
+
+              <div>
+                <p className="text-2xl font-semibold text-white">3+</p>
+                <p className="text-xs text-white/60">Internships</p>
+              </div>
+            </div>
           </motion.div>
         </div>
-
-        {/* Right: portrait */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mx-auto w-full max-w-sm lg:max-w-md"
-        >
-          {/* Ambient glow behind the portrait */}
-          <div
-            className="absolute -inset-10 rounded-full blur-3xl opacity-40"
-            style={{ background: 'radial-gradient(circle, var(--color-accent) 0%, transparent 70%)' }}
-          />
-          {/* Rotating dashed ring accent */}
-          <motion.div
-            className="absolute -inset-4 rounded-[2rem] border"
-            style={{ borderColor: 'var(--glass-border)' }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-          />
-          <div className="relative rounded-[1.75rem] overflow-hidden glass p-2">
-            <div className="rounded-[1.4rem] overflow-hidden">
-              <img
-                src={photo}
-                alt="Suhail Khan"
-                className="w-full h-auto object-cover aspect-[4/5]"
-                style={{
-                  maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
-                  WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Floating stat chip */}
-          <motion.div
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="absolute -left-6 bottom-10 glass rounded-2xl px-4 py-3 shadow-xl hidden sm:block"
-          >
-            <p className="text-xl font-semibold" style={{ fontFamily: 'var(--font-display)' }}>7.67</p>
-            <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>CGPA</p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.95 }}
-            className="absolute -right-4 top-10 glass rounded-2xl px-4 py-3 shadow-xl hidden sm:block"
-          >
-            <p className="text-xl font-semibold" style={{ fontFamily: 'var(--font-display)' }}>AI &amp; DS</p>
-            <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>Specialization</p>
-          </motion.div>
-        </motion.div>
       </div>
 
+      {/* SCROLL INDICATOR */}
       <motion.button
         onClick={() => scrollTo('about')}
         aria-label="Scroll to About section"
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 opacity-60 hover:opacity-100 transition-opacity"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-7 left-8 z-10 flex items-center gap-4 text-sm text-white/70 transition-colors hover:text-cyan-300"
+        animate={{ y: [0, 5, 0] }}
+        transition={{
+          duration: 1.8,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
       >
-        <ArrowDown size={20} />
+        <span className="flex h-10 w-6 items-start justify-center rounded-full border border-cyan-400/60 p-2">
+          <span className="h-2 w-[2px] rounded-full bg-cyan-300" />
+        </span>
+
+        Scroll Down
+
+        <span className="h-px w-20 bg-gradient-to-r from-cyan-400/70 to-transparent" />
       </motion.button>
+
+      {/* BOTTOM RIGHT DECORATION */}
+      <div className="pointer-events-none absolute bottom-8 right-8 hidden items-center gap-3 rounded-full border border-white/10 bg-[#071327]/70 px-5 py-4 backdrop-blur-md md:flex">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-cyan-400/10 text-sm font-bold text-cyan-300">
+          SK
+        </span>
+
+        <div>
+          <p className="text-sm font-medium text-white">Suhail Khan</p>
+          <p className="text-xs text-white/50">AI Engineer &amp; Developer</p>
+        </div>
+      </div>
     </section>
   );
 }
