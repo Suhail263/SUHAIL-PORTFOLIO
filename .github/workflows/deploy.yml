@@ -16,6 +16,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,19 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        # VITE_BASE is derived automatically from the repo name, so nothing
-        # needs to be hardcoded — this works whatever the repo is called.
-        # If this repo is named exactly "<username>.github.io" (a user site,
-        # served at the domain root), base should be "/" instead of "/repo/".
-        run: |
-          if [[ "${{ github.event.repository.name }}" == *.github.io ]]; then
-            echo "VITE_BASE=/" >> $GITHUB_ENV
-          else
-            echo "VITE_BASE=/${{ github.event.repository.name }}/" >> $GITHUB_ENV
-          fi
-      - run: npm run build
-        env:
-          VITE_BASE: ${{ env.VITE_BASE }}
+        run: npm run build
 
       - name: Upload build
         uses: actions/upload-pages-artifact@v3
@@ -52,9 +41,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
