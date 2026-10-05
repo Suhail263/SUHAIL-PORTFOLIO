@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { TiltCard } from "@/components/ui/TiltCard";
 
 import {
   certificates,
@@ -33,47 +32,47 @@ const CERTIFICATE_FILES: Record<
   }
 > = {
   "IBM Java Certificate": {
-    file: "/certificates/ibm-java.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/ibm-java.pdf`,
     type: "pdf",
   },
 
   "AWS Cloud Computing Training — Advantage Pro (60 hours)": {
-    file: "/certificates/aws-cloud-training.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/aws-cloud-training.pdf`,
     type: "pdf",
   },
 
   "NPTEL — Mobile Virtual Reality & AI": {
-    file: "/certificates/nptel-mvr-ai.jpg",
+    file: `${import.meta.env.BASE_URL}certificates/nptel-mvr-ai.jpg`,
     type: "image",
   },
 
   "Introduction to Artificial Intelligence — Infosys Springboard": {
-    file: "/certificates/infosys-ai.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/infosys-ai.pdf`,
     type: "pdf",
   },
 
   "Basics of Python — Infosys Springboard": {
-    file: "/certificates/infosys-python.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/infosys-python.pdf`,
     type: "pdf",
   },
 
   "IBM Introduction to Cloud": {
-    file: "/certificates/ibm-cloud.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/ibm-cloud.pdf`,
     type: "pdf",
   },
 
   "IBM Business Intelligence": {
-    file: "/certificates/ibm-business-intelligence.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/ibm-business-intelligence.pdf`,
     type: "pdf",
   },
 
   "Increase SEO Traffic with WordPress": {
-    file: "/certificates/coursera-wordpress.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/coursera-wordpress.pdf`,
     type: "pdf",
   },
 
   "Search Engine Optimization (SEO) with Squarespace": {
-    file: "/certificates/coursera-squarespace.pdf",
+    file: `${import.meta.env.BASE_URL}certificates/coursera-squarespace.pdf`,
     type: "pdf",
   },
 };
@@ -222,7 +221,7 @@ function getTheme(title: string): Theme {
 
 function ColorParticles({
   theme,
-  count = 28,
+  count = 24,
 }: {
   theme: Theme;
   count?: number;
@@ -238,7 +237,7 @@ function ColorParticles({
         duration: 2.5 + (index % 5) * 0.6,
         direction: index % 2 === 0 ? -1 : 1,
       })),
-    [count]
+    [count],
   );
 
   return (
@@ -253,9 +252,9 @@ function ColorParticles({
             width: particle.size,
             height: particle.size,
             background:
-            particle.id % 3 === 0
-            ? theme.secondary
-            : theme.accent,
+              particle.id % 3 === 0
+                ? theme.secondary
+                : theme.accent,
             boxShadow: `0 0 18px ${theme.soft}`,
           }}
           initial={{
@@ -416,7 +415,7 @@ function ScanningGrid({ theme }: { theme: Theme }) {
 }
 
 /* =========================================================
-   IBM VISUAL
+   SYSTEM VISUAL
    ========================================================= */
 
 function SystemVisual({ theme }: { theme: Theme }) {
@@ -425,7 +424,8 @@ function SystemVisual({ theme }: { theme: Theme }) {
       <ScanningGrid theme={theme} />
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-72 h-28 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
+        className="absolute left-1/2 top-1/2 w-72 h-28
+        -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
         style={{
           borderColor: `${theme.accent}55`,
           boxShadow: `0 0 40px ${theme.soft}`,
@@ -441,7 +441,8 @@ function SystemVisual({ theme }: { theme: Theme }) {
       />
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-56 h-40 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
+        className="absolute left-1/2 top-1/2 w-56 h-40
+        -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
         style={{
           borderColor: `${theme.secondary}35`,
         }}
@@ -456,7 +457,8 @@ function SystemVisual({ theme }: { theme: Theme }) {
       />
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-3 h-3 rounded-full -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 w-3 h-3
+        rounded-full -translate-x-1/2 -translate-y-1/2"
         style={{
           background: theme.accent,
           boxShadow: `
@@ -484,7 +486,8 @@ function CloudVisual({ theme }: { theme: Theme }) {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute left-1/2 top-1/2 w-72 h-32 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+        className="absolute left-1/2 top-1/2 w-72 h-32
+        -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
         style={{
           background: `radial-gradient(
             ellipse,
@@ -538,14 +541,15 @@ function CloudVisual({ theme }: { theme: Theme }) {
 }
 
 /* =========================================================
-   NPTEL VISUAL
+   ORBIT VISUAL
    ========================================================= */
 
 function OrbitVisual({ theme }: { theme: Theme }) {
   return (
     <div className="absolute inset-0 pointer-events-none">
       <motion.div
-        className="absolute left-1/2 top-1/2 w-72 h-28 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
+        className="absolute left-1/2 top-1/2 w-72 h-28
+        -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
         style={{
           borderColor: `${theme.accent}55`,
           boxShadow: `0 0 40px ${theme.soft}`,
@@ -561,7 +565,8 @@ function OrbitVisual({ theme }: { theme: Theme }) {
       />
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-56 h-40 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
+        className="absolute left-1/2 top-1/2 w-56 h-40
+        -translate-x-1/2 -translate-y-1/2 rounded-[50%] border"
         style={{
           borderColor: `${theme.secondary}35`,
         }}
@@ -576,7 +581,8 @@ function OrbitVisual({ theme }: { theme: Theme }) {
       />
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-3 h-3 rounded-full -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 w-3 h-3
+        rounded-full -translate-x-1/2 -translate-y-1/2"
         style={{
           background: theme.accent,
           boxShadow: `
@@ -599,7 +605,7 @@ function OrbitVisual({ theme }: { theme: Theme }) {
 }
 
 /* =========================================================
-   AI NEURAL VISUAL
+   NEURAL VISUAL
    ========================================================= */
 
 function NeuralVisual({ theme }: { theme: Theme }) {
@@ -648,7 +654,8 @@ function NeuralVisual({ theme }: { theme: Theme }) {
       {nodes.map(([x, y], index) => (
         <motion.div
           key={index}
-          className="absolute w-3 h-3 rounded-full -translate-x-1/2 -translate-y-1/2"
+          className="absolute w-3 h-3 rounded-full
+          -translate-x-1/2 -translate-y-1/2"
           style={{
             left: `${x}%`,
             top: `${y}%`,
@@ -725,7 +732,9 @@ function PythonVisual({ theme }: { theme: Theme }) {
       ))}
 
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[72px] font-bold font-mono"
+        className="absolute left-1/2 top-1/2
+        -translate-x-1/2 -translate-y-1/2
+        text-[72px] font-bold font-mono"
         style={{
           color: `${theme.accent}20`,
           textShadow: `0 0 50px ${theme.soft}`,
@@ -740,7 +749,7 @@ function PythonVisual({ theme }: { theme: Theme }) {
           ease: "easeInOut",
         }}
       >
-        {"</>"}
+        {"<>"}
       </motion.div>
 
       <ColorParticles theme={theme} count={22} />
@@ -756,7 +765,8 @@ function CourseraVisual({ theme }: { theme: Theme }) {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute left-[12%] right-[12%] top-1/2 h-px"
+        className="absolute left-[12%] right-[12%]
+        top-1/2 h-px"
         style={{
           background: `linear-gradient(
             90deg,
@@ -782,7 +792,8 @@ function CourseraVisual({ theme }: { theme: Theme }) {
       {[0, 1, 2, 3, 4].map((item) => (
         <motion.div
           key={item}
-          className="absolute top-1/2 w-3 h-3 rounded-full -translate-y-1/2"
+          className="absolute top-1/2 w-3 h-3 rounded-full
+          -translate-y-1/2"
           style={{
             left: `${18 + item * 16}%`,
             background:
@@ -853,7 +864,8 @@ function MaterializationScene({
 
   return (
     <motion.div
-      className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
+      className="absolute inset-0 flex items-center
+      justify-center overflow-hidden pointer-events-none"
       initial={{
         opacity: 0,
       }}
@@ -870,10 +882,11 @@ function MaterializationScene({
         count={stage === "materialize" ? 45 : 32}
       />
 
-      {/* Central energy core */}
+      {/* ENERGY CORE */}
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-24 h-24 rounded-full"
+        className="absolute left-1/2 top-1/2
+        w-24 h-24 rounded-full"
         style={{
           background: `radial-gradient(
             circle,
@@ -907,10 +920,11 @@ function MaterializationScene({
         }}
       />
 
-      {/* Outer ring */}
+      {/* OUTER RING */}
 
       <motion.div
-        className="absolute left-1/2 top-1/2 w-72 h-72 rounded-full border"
+        className="absolute left-1/2 top-1/2
+        w-72 h-72 rounded-full border"
         style={{
           borderColor: `${theme.accent}35`,
           boxShadow: `0 0 80px ${theme.soft}`,
@@ -935,10 +949,11 @@ function MaterializationScene({
         }}
       />
 
-      {/* Back document */}
+      {/* BACK DOCUMENT */}
 
       <motion.div
-        className="absolute w-[min(72vw,720px)] aspect-[1.414/1] rounded-2xl border"
+        className="absolute w-[min(72vw,720px)]
+        aspect-[1.414/1] rounded-2xl border"
         style={{
           background: "rgba(255,255,255,0.025)",
           borderColor: `${theme.secondary}30`,
@@ -955,7 +970,9 @@ function MaterializationScene({
         }}
         animate={{
           opacity:
-            stage === "assemble" ? 0.7 : 0,
+            stage === "assemble"
+              ? 0.7
+              : 0,
           scale:
             stage === "assemble"
               ? [0.3, 0.8, 1]
@@ -983,10 +1000,11 @@ function MaterializationScene({
         }}
       />
 
-      {/* Front holographic document */}
+      {/* FRONT HOLOGRAPHIC DOCUMENT */}
 
       <motion.div
-        className="absolute w-[min(66vw,660px)] aspect-[1.414/1] rounded-2xl border"
+        className="absolute w-[min(66vw,660px)]
+        aspect-[1.414/1] rounded-2xl border"
         style={{
           background: "rgba(255,255,255,0.035)",
           borderColor: `${theme.accent}45`,
@@ -1002,7 +1020,9 @@ function MaterializationScene({
         }}
         animate={{
           opacity:
-            stage === "assemble" ? 0.9 : 0,
+            stage === "assemble"
+              ? 0.9
+              : 0,
           scale:
             stage === "assemble"
               ? [0.25, 0.75, 1]
@@ -1031,10 +1051,11 @@ function MaterializationScene({
         }}
       />
 
-      {/* Main holographic certificate */}
+      {/* HOLOGRAPHIC CERTIFICATE */}
 
       <motion.div
-        className="absolute w-[min(60vw,600px)] aspect-[1.414/1] rounded-xl overflow-hidden"
+        className="absolute w-[min(60vw,600px)]
+        aspect-[1.414/1] rounded-xl overflow-hidden"
         style={{
           background: `
             linear-gradient(
@@ -1059,7 +1080,9 @@ function MaterializationScene({
         }}
         animate={{
           opacity:
-            stage === "assemble" ? 1 : 0,
+            stage === "assemble"
+              ? 1
+              : 0,
           scale:
             stage === "assemble"
               ? [0.2, 0.65, 1]
@@ -1084,14 +1107,16 @@ function MaterializationScene({
         }}
       >
         <div
-          className="absolute inset-[7%] rounded-lg border"
+          className="absolute inset-[7%]
+          rounded-lg border"
           style={{
             borderColor: `${theme.accent}35`,
           }}
         />
 
         <motion.div
-          className="absolute left-0 right-0 top-[18%] h-px"
+          className="absolute left-0 right-0
+          top-[18%] h-px"
           style={{
             background: `linear-gradient(
               90deg,
@@ -1106,7 +1131,9 @@ function MaterializationScene({
           }}
           animate={{
             scaleX:
-              stage === "assemble" ? 1 : 0,
+              stage === "assemble"
+                ? 1
+                : 0,
           }}
           transition={{
             duration: 0.8,
@@ -1115,7 +1142,10 @@ function MaterializationScene({
         />
 
         <motion.div
-          className="absolute left-1/2 top-[25%] -translate-x-1/2 w-12 h-12 rounded-full border flex items-center justify-center"
+          className="absolute left-1/2 top-[25%]
+          -translate-x-1/2 w-12 h-12
+          rounded-full border flex items-center
+          justify-center"
           style={{
             borderColor: `${theme.accent}60`,
             color: theme.accent,
@@ -1127,7 +1157,9 @@ function MaterializationScene({
           }}
           animate={{
             scale:
-              stage === "assemble" ? 1 : 0,
+              stage === "assemble"
+                ? 1
+                : 0,
             rotate: 0,
           }}
           transition={{
@@ -1140,14 +1172,17 @@ function MaterializationScene({
         </motion.div>
 
         <motion.div
-          className="absolute left-[15%] right-[15%] top-[48%] text-center"
+          className="absolute left-[15%] right-[15%]
+          top-[48%] text-center"
           initial={{
             opacity: 0,
             filter: "blur(8px)",
           }}
           animate={{
             opacity:
-              stage === "assemble" ? 1 : 0,
+              stage === "assemble"
+                ? 1
+                : 0,
             filter:
               stage === "assemble"
                 ? "blur(0px)"
@@ -1159,7 +1194,8 @@ function MaterializationScene({
           }}
         >
           <div
-            className="text-[8px] uppercase tracking-[0.4em]"
+            className="text-[8px] uppercase
+            tracking-[0.4em]"
             style={{
               color: `${theme.accent}90`,
             }}
@@ -1167,7 +1203,10 @@ function MaterializationScene({
             CERTIFICATE OF ACHIEVEMENT
           </div>
 
-          <div className="mt-4 text-[clamp(12px,1.3vw,18px)] font-medium text-white/85">
+          <div
+            className="mt-4 text-[clamp(12px,1.3vw,18px)]
+            font-medium text-white/85"
+          >
             SUHAIL KHAN
           </div>
 
@@ -1184,7 +1223,9 @@ function MaterializationScene({
         </motion.div>
 
         <motion.div
-          className="absolute bottom-[13%] left-1/2 -translate-x-1/2 flex items-center gap-2 text-[7px] uppercase tracking-[0.3em]"
+          className="absolute bottom-[13%] left-1/2
+          -translate-x-1/2 flex items-center gap-2
+          text-[7px] uppercase tracking-[0.3em]"
           style={{
             color: `${theme.accent}75`,
           }}
@@ -1193,7 +1234,9 @@ function MaterializationScene({
           }}
           animate={{
             opacity:
-              stage === "assemble" ? 1 : 0,
+              stage === "assemble"
+                ? 1
+                : 0,
           }}
           transition={{
             delay: 1.15,
@@ -1205,10 +1248,9 @@ function MaterializationScene({
         </motion.div>
       </motion.div>
 
-      {/* Loading status */}
-
       <motion.div
-        className="absolute bottom-[9%] left-1/2 -translate-x-1/2 flex items-center gap-2"
+        className="absolute bottom-[9%] left-1/2
+        -translate-x-1/2 flex items-center gap-2"
         initial={{
           opacity: 0,
           y: 15,
@@ -1234,7 +1276,8 @@ function MaterializationScene({
         />
 
         <span
-          className="text-[9px] uppercase tracking-[0.3em]"
+          className="text-[9px] uppercase
+          tracking-[0.3em]"
           style={{
             color: `${theme.accent}90`,
           }}
@@ -1287,7 +1330,7 @@ function CertificateViewer({
   const revealTriggered = useRef(false);
 
   /* ---------------------------------------------------------
-     SYNCHRONIZED TIMELINE
+     RESET + ANIMATION TIMELINE
      --------------------------------------------------------- */
 
   useEffect(() => {
@@ -1334,6 +1377,71 @@ function CertificateViewer({
   }, [certificate.title]);
 
   /* ---------------------------------------------------------
+     PRE-FLIGHT FILE CHECK
+
+     This prevents a missing GitHub Pages file from
+     accidentally loading index.html inside the iframe.
+     --------------------------------------------------------- */
+
+  useEffect(() => {
+    if (!file?.file) {
+      setLoadError(true);
+      setCertificateLoaded(true);
+      return;
+    }
+
+    let cancelled = false;
+
+    const verifyFile = async () => {
+      try {
+        const response = await fetch(file.file, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Certificate request failed: ${response.status}`,
+          );
+        }
+
+        const contentType =
+          response.headers.get("content-type") || "";
+
+        const validType =
+          file.type === "pdf"
+            ? contentType.includes("application/pdf")
+            : contentType.startsWith("image/");
+
+        if (!validType) {
+          throw new Error(
+            `Unexpected certificate content type: ${contentType}`,
+          );
+        }
+
+        if (!cancelled) {
+          setLoadError(false);
+        }
+      } catch (error) {
+        console.error(
+          "Certificate file verification failed:",
+          error,
+        );
+
+        if (!cancelled) {
+          setLoadError(true);
+        }
+      }
+    };
+
+    verifyFile();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [file?.file, file?.type]);
+
+  /* ---------------------------------------------------------
      REAL REVEAL SYNCHRONIZATION
      --------------------------------------------------------- */
 
@@ -1378,7 +1486,9 @@ function CertificateViewer({
      --------------------------------------------------------- */
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (
+      event: KeyboardEvent,
+    ) => {
       if (event.key === "Escape") {
         onClose();
       }
@@ -1386,13 +1496,13 @@ function CertificateViewer({
 
     window.addEventListener(
       "keydown",
-      handleKeyDown
+      handleKeyDown,
     );
 
     return () => {
       window.removeEventListener(
         "keydown",
-        handleKeyDown
+        handleKeyDown,
       );
     };
   }, [onClose]);
@@ -1403,7 +1513,9 @@ function CertificateViewer({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6"
+      className="fixed inset-0 z-[200]
+      flex items-center justify-center
+      p-3 sm:p-6"
       initial={{
         opacity: 0,
       }}
@@ -1418,7 +1530,9 @@ function CertificateViewer({
       {/* BACKDROP */}
 
       <motion.div
-        className="absolute inset-0 bg-[#020204]/[0.96] backdrop-blur-2xl"
+        className="absolute inset-0
+        bg-[#020204]/[0.96]
+        backdrop-blur-2xl"
         initial={{
           opacity: 0,
         }}
@@ -1430,7 +1544,8 @@ function CertificateViewer({
       {/* BACKGROUND GLOW */}
 
       <motion.div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0
+        pointer-events-none"
         style={{
           background: `
             radial-gradient(
@@ -1453,7 +1568,10 @@ function CertificateViewer({
       {/* MAIN VIEWER */}
 
       <motion.div
-        className="relative z-10 w-full max-w-7xl h-[94vh] rounded-[28px] overflow-hidden border bg-[#060609]"
+        className="relative z-10 w-full
+        max-w-7xl h-[94vh]
+        rounded-[28px] overflow-hidden
+        border bg-[#060609]"
         style={{
           borderColor: `${theme.accent}35`,
           boxShadow: `
@@ -1490,7 +1608,8 @@ function CertificateViewer({
         {/* AMBIENT BACKGROUND */}
 
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0
+          pointer-events-none"
           style={{
             background: `
               radial-gradient(
@@ -1518,7 +1637,11 @@ function CertificateViewer({
         {/* HEADER */}
 
         <motion.header
-          className="relative z-50 h-16 border-b border-white/[0.07] flex items-center justify-between px-4 sm:px-6 bg-black/35 backdrop-blur-xl"
+          className="relative z-50 h-16
+          border-b border-white/[0.07]
+          flex items-center justify-between
+          px-4 sm:px-6
+          bg-black/35 backdrop-blur-xl"
           initial={{
             opacity: 0,
             y: -15,
@@ -1533,7 +1656,9 @@ function CertificateViewer({
         >
           <div className="flex items-center gap-3 min-w-0">
             <motion.div
-              className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+              className="w-9 h-9 rounded-xl
+              flex items-center justify-center
+              shrink-0"
               style={{
                 background: theme.gradient,
                 color: theme.accent,
@@ -1560,7 +1685,8 @@ function CertificateViewer({
               </p>
 
               <p
-                className="text-[9px] uppercase tracking-[0.2em] mt-0.5"
+                className="text-[9px]
+                uppercase tracking-[0.2em] mt-0.5"
                 style={{
                   color: `${theme.accent}80`,
                 }}
@@ -1579,7 +1705,12 @@ function CertificateViewer({
                 onClick={(event) => {
                   event.stopPropagation();
                 }}
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white/45 hover:text-white hover:bg-white/[0.07] transition-colors"
+                className="w-9 h-9 rounded-full
+                flex items-center justify-center
+                text-white/45
+                hover:text-white
+                hover:bg-white/[0.07]
+                transition-colors"
                 aria-label="Open certificate"
               >
                 <ExternalLink size={16} />
@@ -1589,7 +1720,12 @@ function CertificateViewer({
             <button
               type="button"
               onClick={onClose}
-              className="w-9 h-9 rounded-full flex items-center justify-center text-white/45 hover:text-white hover:bg-white/[0.07] transition-colors"
+              className="w-9 h-9 rounded-full
+              flex items-center justify-center
+              text-white/45
+              hover:text-white
+              hover:bg-white/[0.07]
+              transition-colors"
               aria-label="Close certificate"
             >
               <X size={18} />
@@ -1610,7 +1746,11 @@ function CertificateViewer({
         {/* REAL CERTIFICATE */}
 
         <div
-          className="absolute inset-16 sm:inset-20 top-20 sm:top-24 bottom-5 sm:bottom-6 flex items-center justify-center"
+          className="absolute
+          inset-4 sm:inset-10
+          top-20 sm:top-24
+          bottom-5 sm:bottom-6
+          flex items-center justify-center"
           style={{
             pointerEvents: isRevealed
               ? "auto"
@@ -1618,7 +1758,9 @@ function CertificateViewer({
           }}
         >
           <motion.div
-            className="relative w-full h-full rounded-2xl overflow-hidden border bg-black/40"
+            className="relative w-full h-full
+            rounded-2xl overflow-hidden
+            border bg-black/40"
             style={{
               borderColor: `${theme.accent}45`,
               boxShadow: `
@@ -1647,7 +1789,9 @@ function CertificateViewer({
 
             {isRevealed && (
               <motion.div
-                className="absolute top-0 left-0 right-0 h-[2px] z-30 pointer-events-none"
+                className="absolute top-0 left-0
+                right-0 h-[2px] z-30
+                pointer-events-none"
                 style={{
                   background: `linear-gradient(
                     90deg,
@@ -1674,14 +1818,20 @@ function CertificateViewer({
             {/* CORNER ACCENTS */}
 
             <div
-              className="absolute top-0 left-0 w-20 h-20 border-l border-t pointer-events-none z-20"
+              className="absolute top-0 left-0
+              w-20 h-20
+              border-l border-t
+              pointer-events-none z-20"
               style={{
                 borderColor: `${theme.accent}80`,
               }}
             />
 
             <div
-              className="absolute bottom-0 right-0 w-20 h-20 border-r border-b pointer-events-none z-20"
+              className="absolute bottom-0 right-0
+              w-20 h-20
+              border-r border-b
+              pointer-events-none z-20"
               style={{
                 borderColor: `${theme.secondary}80`,
               }}
@@ -1691,11 +1841,14 @@ function CertificateViewer({
 
             {file?.file ? (
               file.type === "image" ? (
-                <div className="w-full h-full flex items-center justify-center bg-[#151515] p-3 sm:p-8">
+                <div className="w-full h-full
+                flex items-center justify-center
+                bg-[#151515] p-3 sm:p-8">
                   <img
                     src={file.file}
                     alt={`${certificate.title} certificate`}
-                    className="max-w-full max-h-full object-contain rounded-sm"
+                    className="max-w-full max-h-full
+                    object-contain rounded-sm"
                     onLoad={() => {
                       setCertificateLoaded(true);
                     }}
@@ -1710,7 +1863,8 @@ function CertificateViewer({
                   key={file.file}
                   src={`${file.file}#toolbar=0&navpanes=0&scrollbar=1`}
                   title={`${certificate.title} certificate`}
-                  className="w-full h-full border-0 bg-white"
+                  className="w-full h-full
+                  border-0 bg-white"
                   onLoad={() => {
                     setCertificateLoaded(true);
                   }}
@@ -1721,7 +1875,8 @@ function CertificateViewer({
                 />
               )
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full h-full
+              flex items-center justify-center">
                 <div className="text-center">
                   <Award
                     size={42}
@@ -1729,7 +1884,8 @@ function CertificateViewer({
                     className="mx-auto text-white/20"
                   />
 
-                  <p className="mt-5 text-sm text-white/45">
+                  <p className="mt-5
+                  text-sm text-white/45">
                     Certificate preview unavailable
                   </p>
                 </div>
@@ -1739,9 +1895,11 @@ function CertificateViewer({
             {/* VIGNETTE */}
 
             <motion.div
-              className="absolute inset-0 pointer-events-none z-20"
+              className="absolute inset-0
+              pointer-events-none z-20"
               style={{
-                boxShadow: `inset 0 0 80px ${theme.soft}`,
+                boxShadow:
+                  `inset 0 0 80px ${theme.soft}`,
               }}
               animate={{
                 opacity: [0.35, 0.7, 0.35],
@@ -1756,13 +1914,24 @@ function CertificateViewer({
 
             {!certificateLoaded &&
               !isRevealed && (
-                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] pointer-events-none">
-                  <div className="flex flex-col items-center gap-4">
+                <div
+                  className="absolute inset-0
+                  z-30 flex items-center
+                  justify-center
+                  bg-black/20
+                  backdrop-blur-[2px]
+                  pointer-events-none"
+                >
+                  <div className="flex flex-col
+                  items-center gap-4">
                     <motion.div
-                      className="w-10 h-10 rounded-full border"
+                      className="w-10 h-10
+                      rounded-full border"
                       style={{
-                        borderColor: `${theme.accent}25`,
-                        borderTopColor: theme.accent,
+                        borderColor:
+                          `${theme.accent}25`,
+                        borderTopColor:
+                          theme.accent,
                       }}
                       animate={{
                         rotate: 360,
@@ -1775,9 +1944,11 @@ function CertificateViewer({
                     />
 
                     <span
-                      className="text-[9px] uppercase tracking-[0.3em]"
+                      className="text-[9px]
+                      uppercase tracking-[0.3em]"
                       style={{
-                        color: `${theme.accent}90`,
+                        color:
+                          `${theme.accent}90`,
                       }}
                     >
                       Loading certificate
@@ -1789,9 +1960,21 @@ function CertificateViewer({
             {/* ERROR */}
 
             {loadError && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full bg-black/70 border border-white/10 backdrop-blur-xl">
-                <span className="text-[9px] uppercase tracking-[0.2em] text-white/45">
-                  Preview loaded with browser fallback
+              <div
+                className="absolute bottom-4
+                left-1/2
+                -translate-x-1/2 z-40
+                px-4 py-2 rounded-full
+                bg-black/70
+                border border-white/10
+                backdrop-blur-xl"
+              >
+                <span
+                  className="text-[9px]
+                  uppercase tracking-[0.2em]
+                  text-white/45"
+                >
+                  Preview could not be verified
                 </span>
               </div>
             )}
@@ -1803,9 +1986,16 @@ function CertificateViewer({
         <AnimatePresence>
           {stage === "complete" && (
             <motion.div
-              className="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2 rounded-full border bg-black/60 backdrop-blur-xl"
+              className="absolute bottom-5
+              left-1/2
+              -translate-x-1/2 z-50
+              flex items-center gap-2
+              px-4 py-2 rounded-full
+              border bg-black/60
+              backdrop-blur-xl"
               style={{
-                borderColor: `${theme.accent}25`,
+                borderColor:
+                  `${theme.accent}25`,
               }}
               initial={{
                 opacity: 0,
@@ -1820,7 +2010,9 @@ function CertificateViewer({
               }}
             >
               <span
-                className="w-5 h-5 rounded-full flex items-center justify-center"
+                className="w-5 h-5
+                rounded-full flex items-center
+                justify-center"
                 style={{
                   background: theme.soft,
                   color: theme.accent,
@@ -1830,9 +2022,11 @@ function CertificateViewer({
               </span>
 
               <span
-                className="text-[9px] uppercase tracking-[0.22em]"
+                className="text-[9px]
+                uppercase tracking-[0.22em]"
                 style={{
-                  color: `${theme.accent}90`,
+                  color:
+                    `${theme.accent}90`,
                 }}
               >
                 Certificate revealed
@@ -1841,7 +2035,8 @@ function CertificateViewer({
               <Sparkles
                 size={11}
                 style={{
-                  color: `${theme.secondary}90`,
+                  color:
+                    `${theme.secondary}90`,
                 }}
               />
             </motion.div>
@@ -1869,7 +2064,7 @@ export function Certificates() {
     : getTheme("");
 
   /* ---------------------------------------------------------
-     BODY SCROLL LOCK + ESC
+     BODY SCROLL LOCK
      --------------------------------------------------------- */
 
   useEffect(() => {
@@ -1880,25 +2075,9 @@ export function Certificates() {
 
     document.body.style.overflow = "hidden";
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelected(null);
-      }
-    };
-
-    window.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
-
     return () => {
       document.body.style.overflow =
         previousOverflow;
-
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
     };
   }, [selected]);
 
@@ -1915,7 +2094,7 @@ export function Certificates() {
             rgba(7,7,9,.88),
             rgba(7,7,9,.96)
           ),
-          url('/images/certifications-background.png')
+          url('${import.meta.env.BASE_URL}images/certifications-background.png')
         `,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -1923,9 +2102,14 @@ export function Certificates() {
     >
       {/* SECTION ATMOSPHERE */}
 
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div
+        className="absolute inset-0
+        pointer-events-none overflow-hidden"
+      >
         <motion.div
-          className="absolute -right-48 -top-48 w-[650px] h-[650px] rounded-full blur-[160px]"
+          className="absolute -right-48 -top-48
+          w-[650px] h-[650px]
+          rounded-full blur-[160px]"
           style={{
             background:
               "radial-gradient(circle, rgba(99,102,241,.10), transparent 70%)",
@@ -1943,7 +2127,10 @@ export function Certificates() {
         />
 
         <motion.div
-          className="absolute left-[-220px] bottom-[-220px] w-[600px] h-[600px] rounded-full blur-[150px]"
+          className="absolute left-[-220px]
+          bottom-[-220px]
+          w-[600px] h-[600px]
+          rounded-full blur-[150px]"
           style={{
             background:
               "radial-gradient(circle, rgba(168,85,247,.07), transparent 70%)",
@@ -1971,7 +2158,11 @@ export function Certificates() {
 
         {/* CERTIFICATE GRID */}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+        <div
+          className="grid grid-cols-1
+          sm:grid-cols-2 lg:grid-cols-3
+          gap-5 mt-12"
+        >
           {certificates.map(
             (certificate, index) => {
               const file =
@@ -1995,7 +2186,9 @@ export function Certificates() {
                       setSelected(certificate);
                     }
                   }}
-                  className="group text-left outline-none h-full disabled:cursor-default"
+                  className="group text-left
+                  outline-none h-full
+                  disabled:cursor-default"
                   initial={{
                     opacity: 0,
                     y: 45,
@@ -2016,7 +2209,7 @@ export function Certificates() {
                     ease,
                   }}
                 >
-                  <TiltCard
+                  <div
                     className="
                       relative
                       h-full
@@ -2037,7 +2230,14 @@ export function Certificates() {
                     {/* COLOR AURA */}
 
                     <motion.div
-                      className="absolute -top-28 -right-24 w-64 h-64 rounded-full blur-[70px] pointer-events-none opacity-0 group-hover:opacity-100"
+                      className="absolute
+                      -top-28 -right-24
+                      w-64 h-64
+                      rounded-full
+                      blur-[70px]
+                      pointer-events-none
+                      opacity-0
+                      group-hover:opacity-100"
                       style={{
                         background: theme.glow,
                       }}
@@ -2046,64 +2246,45 @@ export function Certificates() {
                       }}
                     />
 
-                    {/* COLOR SWEEP */}
-
-                    <motion.div
-                      className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100"
-                      style={{
-                        background: `
-                          linear-gradient(
-                            115deg,
-                            transparent 25%,
-                            ${theme.accent}08 45%,
-                            ${theme.secondary}08 55%,
-                            transparent 75%
-                          )
-                        `,
-                        backgroundSize: "200% 100%",
-                      }}
-                      animate={{
-                        backgroundPosition: [
-                          "-120% 0%",
-                          "120% 0%",
-                        ],
-                      }}
-                      transition={{
-                        duration: 1.4,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-
                     {/* NUMBER */}
 
                     <div
-                      className="absolute top-5 right-5 text-[9px] tracking-[0.22em]"
+                      className="absolute
+                      top-5 right-5
+                      text-[9px]
+                      tracking-[0.22em]"
                       style={{
-                        color: `${theme.accent}45`,
+                        color:
+                          `${theme.accent}45`,
                       }}
                     >
                       {String(index + 1).padStart(
                         2,
-                        "0"
+                        "0",
                       )}
                     </div>
 
                     {/* ICON */}
 
                     <motion.div
-                      className="relative w-12 h-12 rounded-xl border flex items-center justify-center"
+                      className="relative
+                      w-12 h-12 rounded-xl
+                      border flex items-center
+                      justify-center"
                       style={{
-                        borderColor: `${theme.accent}35`,
-                        background: theme.gradient,
-                        color: theme.accent,
-                        boxShadow: `0 0 0 ${theme.soft}`,
+                        borderColor:
+                          `${theme.accent}35`,
+                        background:
+                          theme.gradient,
+                        color:
+                          theme.accent,
                       }}
                       whileHover={{
                         scale: 1.1,
                         rotateX: -10,
                         rotateY: 15,
-                        boxShadow: `0 0 30px ${theme.soft}`,
+                        boxShadow:
+                          `0 0 30px ${theme.soft}`,
                       }}
                       transition={{
                         type: "spring",
@@ -2118,7 +2299,10 @@ export function Certificates() {
 
                       {hasFile && (
                         <motion.span
-                          className="absolute -right-1 -top-1 w-2.5 h-2.5 rounded-full"
+                          className="absolute
+                          -right-1 -top-1
+                          w-2.5 h-2.5
+                          rounded-full"
                           style={{
                             background:
                               theme.accent,
@@ -2142,7 +2326,13 @@ export function Certificates() {
                     {/* CONTENT */}
 
                     <div className="relative mt-6">
-                      <p className="text-sm font-medium leading-relaxed text-white/90 pr-8">
+                      <p
+                        className="text-sm
+                        font-medium
+                        leading-relaxed
+                        text-white/90
+                        pr-8"
+                      >
                         {certificate.title}
                       </p>
 
@@ -2150,14 +2340,19 @@ export function Certificates() {
                         <p
                           className="text-xs mt-2"
                           style={{
-                            color: `${theme.accent}75`,
+                            color:
+                              `${theme.accent}75`,
                           }}
                         >
                           {certificate.year}
                         </p>
                       )}
 
-                      <div className="mt-6 flex items-center justify-between">
+                      <div
+                        className="mt-6
+                        flex items-center
+                        justify-between"
+                      >
                         <span
                           className="
                             text-[9px]
@@ -2175,11 +2370,17 @@ export function Certificates() {
 
                         {hasFile && (
                           <motion.span
-                            className="w-8 h-8 rounded-full border flex items-center justify-center"
+                            className="w-8 h-8
+                            rounded-full
+                            border flex items-center
+                            justify-center"
                             style={{
-                              borderColor: `${theme.accent}25`,
-                              color: `${theme.accent}80`,
-                              background: `${theme.accent}08`,
+                              borderColor:
+                                `${theme.accent}25`,
+                              color:
+                                `${theme.accent}80`,
+                              background:
+                                `${theme.accent}08`,
                             }}
                             whileHover={{
                               rotate: 45,
@@ -2197,7 +2398,9 @@ export function Certificates() {
                     {/* BOTTOM COLOR LINE */}
 
                     <motion.div
-                      className="absolute bottom-0 left-0 h-[2px]"
+                      className="absolute
+                      bottom-0 left-0
+                      h-[2px]"
                       style={{
                         background: `
                           linear-gradient(
@@ -2207,7 +2410,8 @@ export function Certificates() {
                             transparent
                           )
                         `,
-                        boxShadow: `0 0 15px ${theme.soft}`,
+                        boxShadow:
+                          `0 0 15px ${theme.soft}`,
                       }}
                       initial={{
                         width: "0%",
@@ -2220,45 +2424,23 @@ export function Certificates() {
                         ease,
                       }}
                     />
-
-                    {/* RIGHT COLOR LINE */}
-
-                    <motion.div
-                      className="absolute right-0 top-0 bottom-0 w-[2px]"
-                      style={{
-                        background: `
-                          linear-gradient(
-                            180deg,
-                            transparent,
-                            ${theme.accent},
-                            ${theme.secondary},
-                            transparent
-                          )
-                        `,
-                      }}
-                      initial={{
-                        opacity: 0,
-                        scaleY: 0,
-                      }}
-                      whileHover={{
-                        opacity: 1,
-                        scaleY: 1,
-                      }}
-                      transition={{
-                        duration: 0.55,
-                      }}
-                    />
-                  </TiltCard>
+                  </div>
                 </motion.button>
               );
-            }
+            },
           )}
         </div>
 
         {/* BOTTOM STATEMENT */}
 
         <motion.div
-          className="mt-14 flex items-center justify-center gap-3 text-[9px] uppercase tracking-[0.3em] text-white/25"
+          className="mt-14
+          flex items-center
+          justify-center gap-3
+          text-[9px]
+          uppercase
+          tracking-[0.3em]
+          text-white/25"
           initial={{
             opacity: 0,
           }}
