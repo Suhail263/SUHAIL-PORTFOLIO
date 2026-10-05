@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
+  ArrowDown,
   Download,
   Mail,
   GraduationCap,
@@ -65,7 +66,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden flex items-center bg-[var(--color-bg)] text-white"
+      className="relative min-h-screen overflow-hidden flex items-center bg-[#030814] text-white"
     >
       {/* BACKGROUND IMAGE */}
       <div
@@ -87,52 +88,53 @@ export function Hero() {
           background: `
             linear-gradient(
               90deg,
-              rgba(10, 10, 11, 0.98) 0%,
-              rgba(10, 10, 11, 0.92) 28%,
-              rgba(10, 10, 11, 0.68) 48%,
-              rgba(10, 10, 11, 0.22) 75%,
-              rgba(10, 10, 11, 0.12) 100%
+              rgba(3, 8, 20, 0.98) 0%,
+              rgba(3, 8, 20, 0.92) 28%,
+              rgba(3, 8, 20, 0.68) 45%,
+              rgba(3, 8, 20, 0.20) 72%,
+              rgba(3, 8, 20, 0.12) 100%
             ),
             linear-gradient(
               0deg,
-              rgba(10, 10, 11, 0.82) 0%,
-              transparent 48%,
-              rgba(10, 10, 11, 0.20) 100%
+              rgba(3, 8, 20, 0.80) 0%,
+              transparent 45%,
+              rgba(3, 8, 20, 0.20) 100%
             )
           `,
         }}
       />
 
-      {/* ACCENT ATMOSPHERE */}
+      {/* BLUE GLOW */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle at 75% 35%, rgba(91, 108, 255, 0.16), transparent 38%)',
+            'radial-gradient(circle at 75% 35%, rgba(0, 140, 255, 0.16), transparent 38%)',
         }}
       />
 
       {/* MAIN CONTENT */}
       <div className="container-max relative z-10 w-full pt-32 pb-28">
         <div className="max-w-[540px]">
+
           {/* ROLE BADGE */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-[var(--color-bg-elevated)]/80 px-5 py-3 backdrop-blur-md"
+            className="inline-flex items-center gap-3 rounded-full border border-cyan-400/20 bg-[#07172b]/80 px-5 py-3 backdrop-blur-md"
           >
             <span className="text-xs md:text-sm tracking-wide text-white">
               AI ENGINEER
             </span>
 
-            <span className="text-[var(--color-accent)]">|</span>
+            <span className="text-cyan-400">|</span>
 
             <span className="text-xs md:text-sm tracking-wide text-white">
               FULL STACK DEVELOPER
             </span>
 
-            <span className="h-2 w-2 rounded-full bg-[var(--color-accent)] shadow-[0_0_12px_var(--color-accent-glow)]" />
+            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_#34d399]" />
           </motion.div>
 
           {/* NAME */}
@@ -144,7 +146,9 @@ export function Hero() {
           >
             <span className="block text-white">Suhail</span>
 
-            <span className="block text-[var(--color-accent)]">
+            <span
+              className="block bg-gradient-to-r from-indigo-500 via-blue-400 to-cyan-400 bg-clip-text text-transparent"
+            >
               Khan
             </span>
           </motion.h1>
@@ -160,9 +164,9 @@ export function Hero() {
               SK
             </span>
 
-            <span className="h-px w-14 bg-gradient-to-r from-[var(--color-accent)] to-transparent" />
+            <span className="h-px w-14 bg-gradient-to-r from-cyan-400 to-transparent" />
 
-            <span className="text-sm tracking-[0.18em] uppercase text-[var(--color-accent)]">
+            <span className="text-sm tracking-[0.18em] uppercase text-cyan-300">
               Innovate · Build · Create
             </span>
           </motion.div>
@@ -175,9 +179,9 @@ export function Hero() {
             className="mt-6 text-xl md:text-2xl font-medium text-white/85"
           >
             Building with{' '}
-            <span className="text-[var(--color-accent)]">
+            <span className="text-cyan-300">
               {typed}
-              <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse align-middle bg-[var(--color-accent)]" />
+              <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse align-middle bg-cyan-400" />
             </span>
           </motion.div>
 
@@ -236,7 +240,7 @@ export function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="text-white/75 transition-colors hover:text-[var(--color-accent)]"
+                className="text-white/75 transition-colors hover:text-cyan-400"
               >
                 <FaGithub size={23} />
               </a>
@@ -248,7 +252,7 @@ export function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="text-white/75 transition-colors hover:text-[var(--color-accent)]"
+                className="text-white/75 transition-colors hover:text-cyan-400"
               >
                 <FaLinkedin size={23} />
               </a>
@@ -256,7 +260,7 @@ export function Hero() {
 
             <button
               onClick={() => scrollTo('contact')}
-              className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-[var(--color-accent)]"
+              className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-cyan-300"
             >
               <Mail size={17} />
               Let's Talk
@@ -272,11 +276,8 @@ export function Hero() {
             className="mt-10 flex flex-wrap gap-4"
           >
             {/* CGPA */}
-            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-white/10 bg-[var(--color-bg-elevated)]/75 px-5 py-4 backdrop-blur-md">
-              <GraduationCap
-                className="text-[var(--color-accent)]"
-                size={30}
-              />
+            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-cyan-400/25 bg-[#061327]/75 px-5 py-4 backdrop-blur-md">
+              <GraduationCap className="text-cyan-400" size={30} />
 
               <div>
                 <p className="text-2xl font-semibold text-white">7.67</p>
@@ -285,11 +286,8 @@ export function Hero() {
             </div>
 
             {/* PROJECTS */}
-            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-white/10 bg-[var(--color-bg-elevated)]/75 px-5 py-4 backdrop-blur-md">
-              <Box
-                className="text-[var(--color-accent)]"
-                size={30}
-              />
+            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-cyan-400/25 bg-[#061327]/75 px-5 py-4 backdrop-blur-md">
+              <Box className="text-cyan-400" size={30} />
 
               <div>
                 <p className="text-2xl font-semibold text-white">10+</p>
@@ -298,11 +296,8 @@ export function Hero() {
             </div>
 
             {/* INTERNSHIPS */}
-            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-white/10 bg-[var(--color-bg-elevated)]/75 px-5 py-4 backdrop-blur-md">
-              <Zap
-                className="text-[var(--color-accent)]"
-                size={30}
-              />
+            <div className="flex min-w-[145px] items-center gap-4 rounded-xl border border-cyan-400/25 bg-[#061327]/75 px-5 py-4 backdrop-blur-md">
+              <Zap className="text-cyan-400" size={30} />
 
               <div>
                 <p className="text-2xl font-semibold text-white">3+</p>
@@ -317,7 +312,7 @@ export function Hero() {
       <motion.button
         onClick={() => scrollTo('about')}
         aria-label="Scroll to About section"
-        className="absolute bottom-7 left-8 z-10 flex items-center gap-4 text-sm text-white/70 transition-colors hover:text-[var(--color-accent)]"
+        className="absolute bottom-7 left-8 z-10 flex items-center gap-4 text-sm text-white/70 transition-colors hover:text-cyan-300"
         animate={{ y: [0, 5, 0] }}
         transition={{
           duration: 1.8,
@@ -325,26 +320,24 @@ export function Hero() {
           ease: 'easeInOut',
         }}
       >
-        <span className="flex h-10 w-6 items-start justify-center rounded-full border border-white/20 p-2">
-          <span className="h-2 w-[2px] rounded-full bg-[var(--color-accent)]" />
+        <span className="flex h-10 w-6 items-start justify-center rounded-full border border-cyan-400/60 p-2">
+          <span className="h-2 w-[2px] rounded-full bg-cyan-300" />
         </span>
 
         Scroll Down
 
-        <span className="h-px w-20 bg-gradient-to-r from-[var(--color-accent)]/70 to-transparent" />
+        <span className="h-px w-20 bg-gradient-to-r from-cyan-400/70 to-transparent" />
       </motion.button>
 
       {/* BOTTOM RIGHT DECORATION */}
-      <div className="pointer-events-none absolute bottom-8 right-8 hidden items-center gap-3 rounded-full border border-white/10 bg-[var(--color-bg-elevated)]/70 px-5 py-4 backdrop-blur-md md:flex">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-[var(--color-accent-soft)] text-sm font-bold text-[var(--color-accent)]">
+      <div className="pointer-events-none absolute bottom-8 right-8 hidden items-center gap-3 rounded-full border border-white/10 bg-[#071327]/70 px-5 py-4 backdrop-blur-md md:flex">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-cyan-400/10 text-sm font-bold text-cyan-300">
           SK
         </span>
 
         <div>
           <p className="text-sm font-medium text-white">Suhail Khan</p>
-          <p className="text-xs text-white/50">
-            AI Engineer &amp; Developer
-          </p>
+          <p className="text-xs text-white/50">AI Engineer &amp; Developer</p>
         </div>
       </div>
     </section>

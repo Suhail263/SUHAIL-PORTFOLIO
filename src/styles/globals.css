@@ -1,56 +1,103 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------
-   DESIGN TOKENS
-   A restrained, premium dark system. One accent color only —
-   everything else is near-black / off-white / muted grey.
-   --------------------------------------------------------------- */
+/* ===============================================================
+   SUHAIL PORTFOLIO — V2 DESIGN SYSTEM
+   Visual identity:
+   Deep Midnight + Electric Blue + Cyan
+   =============================================================== */
+
 :root {
-  /* Surface */
-  --color-bg: #0a0a0b;
-  --color-bg-elevated: #0f0f11;
-  --color-bg-warm: #0c0b0d;      /* subtle warm-black variant for section alternation */
+  /* -------------------------------------------------------------
+     CORE SURFACES
+     ------------------------------------------------------------- */
+  --color-bg: #05070d;
+  --color-bg-elevated: #0b1018;
+  --color-bg-surface: #111827;
 
-  /* Glass */
-  --glass-fill: rgba(255, 255, 255, 0.04);
-  --glass-fill-strong: rgba(255, 255, 255, 0.07);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 20px;
+  /* -------------------------------------------------------------
+     TEXT
+     ------------------------------------------------------------- */
+  --color-text: #f5f7fa;
+  --color-text-muted: #8b95a7;
+  --color-text-faint: #596273;
 
-  /* Text */
-  --color-text: #ededf0;
-  --color-text-muted: #8a8a93;
-  --color-text-faint: #55555c;
-
-  /* Accent — used sparingly: CTAs, active states, avatar glow */
+  /* -------------------------------------------------------------
+     ACCENTS
+     ------------------------------------------------------------- */
   --color-accent: #5b6cff;
-  --color-accent-soft: rgba(91, 108, 255, 0.14);
-  --color-accent-glow: rgba(91, 108, 255, 0.45);
+  --color-accent-secondary: #22d3ee;
 
-  /* Typography */
+  --color-accent-soft: rgba(91, 108, 255, 0.12);
+  --color-accent-glow: rgba(91, 108, 255, 0.28);
+  --color-cyan-soft: rgba(34, 211, 238, 0.08);
+
+  /* -------------------------------------------------------------
+     BORDERS
+     ------------------------------------------------------------- */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(91, 108, 255, 0.35);
+  --border-active: rgba(34, 211, 238, 0.3);
+
+  /* -------------------------------------------------------------
+     SURFACE / GLASS
+     Glass is now secondary rather than the main visual language.
+     ------------------------------------------------------------- */
+  --glass-fill: rgba(255, 255, 255, 0.035);
+  --glass-fill-strong: rgba(255, 255, 255, 0.055);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 18px;
+
+  /* -------------------------------------------------------------
+     TYPOGRAPHY
+     ------------------------------------------------------------- */
   --font-display: "Space Grotesk", "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 
-  /* Motion */
+  /* -------------------------------------------------------------
+     MOTION
+     ------------------------------------------------------------- */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+
   --dur-fast: 0.2s;
   --dur-base: 0.4s;
   --dur-slow: 0.8s;
 
-  /* Layout */
+  /* -------------------------------------------------------------
+     LAYOUT
+     ------------------------------------------------------------- */
   --content-max: 1280px;
   --section-pad-y: clamp(4rem, 8vw, 8rem);
+
+  /* -------------------------------------------------------------
+     RADII
+     ------------------------------------------------------------- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
 }
 
 @theme inline {
   --color-bg: var(--color-bg);
   --color-bg-elevated: var(--color-bg-elevated);
+  --color-bg-surface: var(--color-bg-surface);
+
   --color-text: var(--color-text);
   --color-text-muted: var(--color-text-muted);
+  --color-text-faint: var(--color-text-faint);
+
   --color-accent: var(--color-accent);
+  --color-accent-secondary: var(--color-accent-secondary);
+
   --font-display: var(--font-display);
   --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
+
+/* ===============================================================
+   BASE
+   =============================================================== */
 
 * {
   box-sizing: border-box;
@@ -58,22 +105,46 @@
 
 html {
   background: var(--color-bg);
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  scroll-behavior: auto;
 }
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  min-width: 320px;
+  background:
+    radial-gradient(
+      circle at 78% 8%,
+      rgba(91, 108, 255, 0.055),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 12% 88%,
+      rgba(34, 211, 238, 0.025),
+      transparent 28%
+    ),
+    var(--color-bg);
+
   color: var(--color-text);
   font-family: var(--font-body);
+
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+/* ===============================================================
+   TYPOGRAPHY
+   =============================================================== */
+
+h1,
+h2,
+h3,
+h4 {
   margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
 }
 
 p {
@@ -85,61 +156,148 @@ a {
   text-decoration: none;
 }
 
-button {
+button,
+input,
+textarea,
+select {
   font-family: inherit;
+}
+
+button {
   cursor: pointer;
 }
 
-/* Visible keyboard focus — accessibility floor, non-negotiable */
+/* Technical labels / metadata */
+.font-mono,
+[data-mono="true"] {
+  font-family: var(--font-mono);
+}
+
+/* ===============================================================
+   ACCESSIBILITY
+   =============================================================== */
+
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Reduced motion respected globally */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+::selection {
+  background: rgba(91, 108, 255, 0.24);
+  color: var(--color-text);
 }
 
-/* Reusable glass surface */
+/* ===============================================================
+   GLOBAL ATMOSPHERE
+   =============================================================== */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.035) 0.5px,
+      transparent 0.5px
+    );
+
+  background-size: 4px 4px;
+  opacity: 0.018;
+}
+
+/* ===============================================================
+   SURFACES
+   =============================================================== */
+
 .glass {
   background: var(--glass-fill);
   border: 1px solid var(--glass-border);
+
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
-/* Utility: section rhythm */
+.surface {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--border-subtle);
+}
+
+.surface-elevated {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ===============================================================
+   INTERACTION
+   =============================================================== */
+
+.interactive-border {
+  border: 1px solid var(--border-subtle);
+  transition:
+    border-color var(--dur-base) var(--ease-premium),
+    background-color var(--dur-base) var(--ease-premium);
+}
+
+.interactive-border:hover {
+  border-color: var(--border-hover);
+}
+
+/* ===============================================================
+   SECTION RHYTHM
+   =============================================================== */
+
 .section {
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
 }
 
 .container-max {
+  width: 100%;
   max-width: var(--content-max);
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
-::selection {
-  background: var(--color-accent-soft);
-  color: var(--color-text);
+/* ===============================================================
+   SCROLLBAR
+   =============================================================== */
+
+::-webkit-scrollbar {
+  width: 7px;
 }
 
-/* Scrollbar - minimal, not default browser chrome */
-::-webkit-scrollbar {
-  width: 8px;
-}
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-bg);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 108, 255, 0.45);
+}
+
+/* ===============================================================
+   REDUCED MOTION
+   =============================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body::before {
+    display: none;
+  }
 }
