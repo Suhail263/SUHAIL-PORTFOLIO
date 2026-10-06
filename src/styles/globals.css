@@ -1,77 +1,64 @@
 @import "tailwindcss";
 
 /* ===============================================================
-   SUHAIL PORTFOLIO — V2 DESIGN SYSTEM
-   Visual identity:
-   Deep Midnight + Electric Blue + Cyan
+   SUHAIL PORTFOLIO — CINEMATIC BLUE DESIGN SYSTEM
    =============================================================== */
 
 :root {
-  /* -------------------------------------------------------------
-     CORE SURFACES
-     ------------------------------------------------------------- */
+  /* BACKGROUND */
+
   --color-bg: #05070d;
-  --color-bg-elevated: #0b1018;
-  --color-bg-surface: #111827;
+  --color-bg-elevated: #090d15;
+  --color-bg-surface: #0d1320;
 
-  /* -------------------------------------------------------------
-     TEXT
-     ------------------------------------------------------------- */
+  /* TEXT */
+
   --color-text: #f5f7fa;
-  --color-text-muted: #8b95a7;
-  --color-text-faint: #596273;
+  --color-text-muted: #929aaa;
+  --color-text-faint: #5d6575;
 
-  /* -------------------------------------------------------------
-     ACCENTS
-     ------------------------------------------------------------- */
+  /* PRIMARY ACCENT */
+
   --color-accent: #5b6cff;
-  --color-accent-secondary: #22d3ee;
+  --color-accent-secondary: #7c88ff;
 
   --color-accent-soft: rgba(91, 108, 255, 0.12);
-  --color-accent-glow: rgba(91, 108, 255, 0.28);
-  --color-cyan-soft: rgba(34, 211, 238, 0.08);
+  --color-accent-glow: rgba(91, 108, 255, 0.42);
 
-  /* -------------------------------------------------------------
-     BORDERS
-     ------------------------------------------------------------- */
+  /* BORDERS */
+
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(91, 108, 255, 0.35);
-  --border-active: rgba(34, 211, 238, 0.3);
+  --border-hover: rgba(91, 108, 255, 0.40);
+  --border-active: rgba(91, 108, 255, 0.55);
 
-  /* -------------------------------------------------------------
-     SURFACE / GLASS
-     Glass is now secondary rather than the main visual language.
-     ------------------------------------------------------------- */
+  /* GLASS */
+
   --glass-fill: rgba(255, 255, 255, 0.035);
-  --glass-fill-strong: rgba(255, 255, 255, 0.055);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 18px;
+  --glass-fill-strong: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-blur: 20px;
 
-  /* -------------------------------------------------------------
-     TYPOGRAPHY
-     ------------------------------------------------------------- */
+  /* TYPOGRAPHY */
+
   --font-display: "Space Grotesk", "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 
-  /* -------------------------------------------------------------
-     MOTION
-     ------------------------------------------------------------- */
+  /* MOTION */
+
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 
   --dur-fast: 0.2s;
   --dur-base: 0.4s;
   --dur-slow: 0.8s;
 
-  /* -------------------------------------------------------------
-     LAYOUT
-     ------------------------------------------------------------- */
+  /* LAYOUT */
+
   --content-max: 1280px;
   --section-pad-y: clamp(4rem, 8vw, 8rem);
 
-  /* -------------------------------------------------------------
-     RADII
-     ------------------------------------------------------------- */
+  /* RADII */
+
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
@@ -104,13 +91,14 @@
 }
 
 html {
-  background: var(--color-bg);
+  background: #05070d;
   scroll-behavior: auto;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+
   background:
     radial-gradient(
       circle at 78% 8%,
@@ -119,12 +107,13 @@ body {
     ),
     radial-gradient(
       circle at 12% 88%,
-      rgba(34, 211, 238, 0.025),
+      rgba(91, 108, 255, 0.025),
       transparent 28%
     ),
-    var(--color-bg);
+    #05070d;
 
   color: var(--color-text);
+
   font-family: var(--font-body);
 
   -webkit-font-smoothing: antialiased;
@@ -142,8 +131,11 @@ h2,
 h3,
 h4 {
   margin: 0;
+
   font-family: var(--font-display);
+
   font-weight: 600;
+
   letter-spacing: -0.035em;
 }
 
@@ -167,7 +159,10 @@ button {
   cursor: pointer;
 }
 
-/* Technical labels / metadata */
+/* ===============================================================
+   MONOSPACE
+   =============================================================== */
+
 .font-mono,
 [data-mono="true"] {
   font-family: var(--font-mono);
@@ -178,25 +173,29 @@ button {
    =============================================================== */
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid #5b6cff;
   outline-offset: 3px;
   border-radius: 4px;
 }
 
 ::selection {
-  background: rgba(91, 108, 255, 0.24);
-  color: var(--color-text);
+  background: rgba(91, 108, 255, 0.25);
+  color: #ffffff;
 }
 
 /* ===============================================================
-   GLOBAL ATMOSPHERE
+   GLOBAL FILM GRAIN
    =============================================================== */
 
 body::before {
   content: "";
+
   position: fixed;
+
   inset: 0;
+
   pointer-events: none;
+
   z-index: 9999;
 
   background-image:
@@ -206,15 +205,17 @@ body::before {
     );
 
   background-size: 4px 4px;
+
   opacity: 0.018;
 }
 
 /* ===============================================================
-   SURFACES
+   GLASS
    =============================================================== */
 
 .glass {
   background: var(--glass-fill);
+
   border: 1px solid var(--glass-border);
 
   backdrop-filter: blur(var(--glass-blur));
@@ -223,20 +224,23 @@ body::before {
 
 .surface {
   background: var(--color-bg-elevated);
+
   border: 1px solid var(--border-subtle);
 }
 
 .surface-elevated {
   background: var(--color-bg-surface);
+
   border: 1px solid var(--border-subtle);
 }
 
 /* ===============================================================
-   INTERACTION
+   INTERACTIVE BORDER
    =============================================================== */
 
 .interactive-border {
   border: 1px solid var(--border-subtle);
+
   transition:
     border-color var(--dur-base) var(--ease-premium),
     background-color var(--dur-base) var(--ease-premium);
@@ -247,7 +251,7 @@ body::before {
 }
 
 /* ===============================================================
-   SECTION RHYTHM
+   SECTION
    =============================================================== */
 
 .section {
@@ -257,8 +261,11 @@ body::before {
 
 .container-max {
   width: 100%;
+
   max-width: var(--content-max);
+
   margin-inline: auto;
+
   padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
@@ -271,16 +278,17 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: #05070d;
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.12);
+
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(91, 108, 255, 0.45);
+  background: rgba(91, 108, 255, 0.55);
 }
 
 /* ===============================================================
@@ -292,12 +300,41 @@ body::before {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+
     animation-iteration-count: 1 !important;
+
     transition-duration: 0.01ms !important;
+
     scroll-behavior: auto !important;
   }
 
   body::before {
     display: none;
+  }
+}
+
+/* ===============================================================
+   MOBILE
+   =============================================================== */
+
+@media (max-width: 1023px) {
+  body {
+    background:
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(91, 108, 255, 0.08),
+        transparent 35%
+      ),
+      #05070d;
+  }
+}
+
+/* ===============================================================
+   SMALL MOBILE
+   =============================================================== */
+
+@media (max-width: 640px) {
+  .container-max {
+    padding-inline: 1.1rem;
   }
 }
