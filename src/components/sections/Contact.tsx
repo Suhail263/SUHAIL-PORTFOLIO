@@ -1,25 +1,37 @@
-import { useState, type FormEvent } from 'react';
-import { motion } from 'framer-motion';
+"use client";
+
+import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
+import { motion } from "framer-motion";
 import {
-  Mail,
-  Phone,
-  MapPin,
-  Loader2,
-  CheckCircle2,
-  AlertCircle,
-  Send,
   ArrowUpRight,
-} from 'lucide-react';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+  AtSign,
+  Check,
+  CheckCircle2,
+  Lightbulb,
+  LoaderCircle,
+  Mail,
+  MapPin,
+  Send,
+  Sparkles,
+  Terminal,
+  UserRound,
+} from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 
-import { GlassCard } from '@/components/ui/GlassCard';
-import { Button } from '@/components/ui/Button';
-import { profile } from '@/data/resume';
+import { profile } from "@/data/resume";
 
-// FastAPI Backend Configuration
-const API_URL = 'http://127.0.0.1:8000';
+/* =========================================================
+   FASTAPI BACKEND
+   ========================================================= */
 
-type Status = 'idle' | 'sending' | 'success' | 'error';
+const API_URL = "http://127.0.0.1:8000";
+
+/* =========================================================
+   TYPES
+   ========================================================= */
+
+type Status = "idle" | "sending" | "success" | "error";
 
 interface FormState {
   name: string;
@@ -33,65 +45,121 @@ interface FormErrors {
   message?: string;
 }
 
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validate(form: FormState): FormErrors {
   const errors: FormErrors = {};
 
   if (!form.name.trim()) {
-    errors.name = 'Please enter your name.';
+    errors.name = "Please enter your name.";
   } else if (form.name.trim().length < 2) {
-    errors.name = 'Name must be at least 2 characters.';
+    errors.name = "Name must be at least 2 characters.";
   }
 
   if (!form.email.trim()) {
-    errors.email = 'Please enter your email.';
+    errors.email = "Please enter your email.";
   } else if (!EMAIL_RE.test(form.email.trim())) {
-    errors.email = "That email doesn't look right.";
+    errors.email = "Please enter a valid email.";
   }
 
   if (!form.message.trim()) {
-    errors.message = 'Please enter your message.';
+    errors.message = "Please tell me about your idea.";
   } else if (form.message.trim().length < 10) {
-    errors.message = 'Message should be at least 10 characters.';
+    errors.message = "Message should be at least 10 characters.";
   }
 
   return errors;
 }
 
+/* =========================================================
+   CONTACT SECTION
+   ========================================================= */
+
 export function Contact() {
   const [form, setForm] = useState<FormState>({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [status, setStatus] = useState<Status>('idle');
+  const [status, setStatus] = useState<Status>("idle");
 
-  // Submit Contact Form to FastAPI Backend
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  /* -------------------------------------------------------
+     MESSAGE CHARACTER COUNT
+     ------------------------------------------------------- */
+
+  const messageCount = form.message.length;
+
+  /* -------------------------------------------------------
+     CURRENT FORM ACTIVITY
+     ------------------------------------------------------- */
+
+  const activity = useMemo(() => {
+    if (form.message.length > 0) {
+      return {
+        label: "IDEA PROCESSOR",
+        color: "#fbbf24",
+        icon: Lightbulb,
+      };
+    }
+
+    if (form.email.length > 0) {
+      return {
+        label: "SIGNAL RECEIVED",
+        color: "#60a5fa",
+        icon: AtSign,
+      };
+    }
+
+    if (form.name.length > 0) {
+      return {
+        label: "IDENTITY DETECTED",
+        color: "#a78bfa",
+        icon: UserRound,
+      };
+    }
+
+    return {
+      label: "READY TO CONNECT",
+      color: "#94a3b8",
+      icon: Terminal,
+    };
+  }, [form.name, form.email, form.message]);
+
+  const ActivityIcon = activity.icon;
+
+  /* =========================================================
+     FORM SUBMIT
+     ========================================================= */
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const validation = validate(form);
+
     setErrors(validation);
 
     if (Object.keys(validation).length > 0) {
       return;
     }
 
-    setStatus('sending');
+    setStatus("sending");
 
     try {
       const response = await fetch(`${API_URL}/api/contact/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: form.name.trim(),
           email: form.email.trim(),
-          subject: 'Portfolio Contact',
+          subject: "Portfolio Contact",
           message: form.message.trim(),
         }),
       });
@@ -100,718 +168,1690 @@ export function Contact() {
 
       if (!response.ok) {
         throw new Error(
-          typeof data.detail === 'string'
+          typeof data.detail === "string"
             ? data.detail
-            : 'Unable to submit your message.',
+            : "Unable to submit your message.",
         );
       }
 
-      setStatus('success');
+      setStatus("success");
 
       setForm({
-        name: '',
-        email: '',
-        message: '',
+        name: "",
+        email: "",
+        message: "",
       });
 
       setErrors({});
     } catch (error) {
-      console.error('Contact API error:', error);
-      setStatus('error');
+      console.error("Contact API error:", error);
+      setStatus("error");
     }
   };
 
-  const contactItems = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: profile.email,
-      href: `mailto:${profile.email}`,
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: profile.phone,
-      href: `tel:${profile.phone}`,
-    },
-  ];
+  /* =========================================================
+     FIELD UPDATE HELPERS
+     ========================================================= */
+
+  const updateName = (value: string) => {
+    setForm((previous) => ({
+      ...previous,
+      name: value,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      name: undefined,
+    }));
+
+    if (status !== "idle") {
+      setStatus("idle");
+    }
+  };
+
+  const updateEmail = (value: string) => {
+    setForm((previous) => ({
+      ...previous,
+      email: value,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      email: undefined,
+    }));
+
+    if (status !== "idle") {
+      setStatus("idle");
+    }
+  };
+
+  const updateMessage = (value: string) => {
+    setForm((previous) => ({
+      ...previous,
+      message: value,
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      message: undefined,
+    }));
+
+    if (status !== "idle") {
+      setStatus("idle");
+    }
+  };
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
 
   return (
     <section
       id="contact"
-      className="section relative isolate overflow-hidden"
+      className="
+        relative
+        isolate
+        min-h-screen
+        overflow-hidden
+        pt-[120px]
+        pb-16
+        sm:pt-[130px]
+        lg:pt-[145px]
+        lg:pb-20
+      "
     >
-      {/* =========================================================
-          BACKGROUND IMAGE
-      ========================================================= */}
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
+
       <div
-        className="absolute inset-0 -z-30 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 -z-30 bg-cover bg-center"
         style={{
           backgroundImage: "url('/images/contact-background.png')",
-          backgroundPosition: 'center center',
         }}
         aria-hidden="true"
       />
 
-      {/* =========================================================
-          DARK MULTI-TONE OVERLAY
-      ========================================================= */}
+      {/* Dark cinematic overlay */}
+
       <div
         className="absolute inset-0 -z-20"
         style={{
           background: `
             linear-gradient(
               110deg,
-              rgba(5, 5, 10, 0.98) 0%,
-              rgba(8, 7, 16, 0.94) 38%,
-              rgba(10, 8, 20, 0.82) 68%,
-              rgba(12, 8, 22, 0.72) 100%
+              rgba(5,5,10,0.98) 0%,
+              rgba(7,7,14,0.96) 35%,
+              rgba(8,8,16,0.91) 65%,
+              rgba(5,7,14,0.96) 100%
             ),
             linear-gradient(
               180deg,
-              rgba(5, 5, 10, 0.70) 0%,
-              rgba(5, 5, 10, 0.25) 50%,
-              rgba(5, 5, 10, 0.92) 100%
+              rgba(5,5,10,0.72) 0%,
+              rgba(5,5,10,0.25) 45%,
+              rgba(5,5,10,0.96) 100%
             )
           `,
         }}
         aria-hidden="true"
       />
 
-      {/* =========================================================
-          VIOLET GLOW
-      ========================================================= */}
-      <div
-        className="absolute -top-56 right-[-80px] -z-10 h-[560px] w-[560px] rounded-full blur-[150px]"
+      {/* =====================================================
+          AMBIENT LIGHTS
+      ===================================================== */}
+
+      <motion.div
+        className="
+          pointer-events-none
+          absolute
+          -right-40
+          -top-40
+          -z-10
+          h-[600px]
+          w-[600px]
+          rounded-full
+          blur-[150px]
+        "
         style={{
           background:
-            'radial-gradient(circle, rgba(124, 58, 237, 0.28) 0%, rgba(124, 58, 237, 0.08) 42%, transparent 72%)',
+            "radial-gradient(circle, rgba(91,108,255,0.18), rgba(91,108,255,0.05) 42%, transparent 72%)",
         }}
-        aria-hidden="true"
+        animate={{
+          x: [0, 25, 0],
+          y: [0, 18, 0],
+          scale: [1, 1.08, 1],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
       />
 
-      {/* =========================================================
-          PINK GLOW
-      ========================================================= */}
-      <div
-        className="absolute bottom-[8%] left-[-180px] -z-10 h-[480px] w-[480px] rounded-full blur-[150px]"
+      <motion.div
+        className="
+          pointer-events-none
+          absolute
+          -left-48
+          bottom-0
+          -z-10
+          h-[520px]
+          w-[520px]
+          rounded-full
+          blur-[150px]
+        "
         style={{
           background:
-            'radial-gradient(circle, rgba(236, 72, 153, 0.16) 0%, rgba(236, 72, 153, 0.05) 45%, transparent 72%)',
+            "radial-gradient(circle, rgba(124,58,237,0.12), rgba(124,58,237,0.035) 42%, transparent 72%)",
         }}
-        aria-hidden="true"
+        animate={{
+          x: [0, -20, 0],
+          y: [0, -15, 0],
+        }}
+        transition={{
+          duration: 14,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
       />
 
-      {/* =========================================================
-          ORANGE / AMBER ACCENT
-      ========================================================= */}
-      <div
-        className="absolute right-[15%] bottom-[18%] -z-10 h-[260px] w-[260px] rounded-full blur-[130px]"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(251, 146, 60, 0.10) 0%, transparent 70%)',
-        }}
-        aria-hidden="true"
-      />
+      {/* =====================================================
+          ARCHITECTURAL GRID
+      ===================================================== */}
 
-      {/* =========================================================
-          SUBTLE COLOR GRID
-      ========================================================= */}
       <div
-        className="absolute inset-0 -z-10 pointer-events-none opacity-[0.16]"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          -z-10
+          opacity-[0.16]
+        "
         style={{
           backgroundImage: `
             linear-gradient(
-              rgba(139, 92, 246, 0.08) 1px,
+              rgba(148,163,184,0.10) 1px,
               transparent 1px
             ),
             linear-gradient(
               90deg,
-              rgba(236, 72, 153, 0.06) 1px,
+              rgba(148,163,184,0.07) 1px,
               transparent 1px
             )
           `,
-          backgroundSize: '80px 80px',
+          backgroundSize: "75px 75px",
           maskImage:
-            'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
+            "linear-gradient(to bottom, transparent, black 18%, black 80%, transparent)",
           WebkitMaskImage:
-            'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
+            "linear-gradient(to bottom, transparent, black 18%, black 80%, transparent)",
         }}
-        aria-hidden="true"
       />
 
-      <div className="container-max relative z-10">
+      {/* =====================================================
+          DECORATIVE HORIZONTAL LINE
+      ===================================================== */}
 
-        {/* =======================================================
-            SECTION HEADING
-        ======================================================= */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          left-0
+          right-0
+          top-[115px]
+          h-px
+        "
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)",
+        }}
+      />
+
+      {/* =====================================================
+          MAIN CONTAINER
+
+          IMPORTANT:
+          Extra top spacing fixes navbar overlap.
+      ===================================================== */}
+
+      <div className="container-max relative z-10">
+        {/* ===================================================
+            EDITORIAL HEADER
+        =================================================== */}
+
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          initial={{
+            opacity: 0,
+            y: 35,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            margin: "-100px",
+          }}
           transition={{
-            duration: 0.7,
+            duration: 0.9,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="mb-10"
+          className="
+            mb-12
+            max-w-3xl
+            lg:mb-16
+          "
         >
-          <p
-            className="text-xs uppercase tracking-[0.25em] mb-3 font-medium"
-            style={{
-              color: '#a78bfa',
-            }}
-          >
-            Contact
-          </p>
+          {/* Eyebrow */}
 
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
-            Let's talk.
-          </h2>
-
-          <p
-            className="text-base mt-3 max-w-2xl"
-            style={{
-              color: 'rgba(255,255,255,0.58)',
-            }}
-          >
-            Have a role, project, or question in mind? Send a message — I read
-            every one.
-          </p>
-        </motion.div>
-
-        {/* =======================================================
-            MAIN GRID
-        ======================================================= */}
-        <div className="grid md:grid-cols-[1fr,1.3fr] gap-8 items-start">
-
-          {/* =====================================================
-              LEFT SIDE
-          ===================================================== */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="space-y-6"
-          >
-
-            {/* =================================================
-                CONTACT INFORMATION
-            ================================================= */}
-            <GlassCard
-              className="p-6 md:p-8 space-y-6"
+          <div className="mb-5 flex items-center gap-3">
+            <span
+              className="
+                h-px
+                w-10
+              "
               style={{
                 background:
-                  'linear-gradient(145deg, rgba(255,255,255,0.055), rgba(124,58,237,0.035))',
-                borderColor: 'rgba(167,139,250,0.16)',
+                  "linear-gradient(90deg, #6366f1, transparent)",
+              }}
+            />
+
+            <span
+              className="
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.32em]
+              "
+              style={{
+                color: "rgba(255,255,255,0.42)",
               }}
             >
-              <div>
-                <p
-                  className="text-xs uppercase tracking-[0.22em] mb-2 font-medium"
+              Contact / 06
+            </span>
+          </div>
+
+          {/* Main heading */}
+
+          <h2
+            className="
+              max-w-[850px]
+              text-[clamp(3.2rem,7vw,7rem)]
+              font-semibold
+              leading-[0.88]
+              tracking-[-0.055em]
+              text-white
+            "
+          >
+            Let&apos;s build
+            <br />
+
+            <span
+              style={{
+                background:
+                  "linear-gradient(90deg, #a5b4fc 0%, #8b9cff 48%, #c7d2fe 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              something
+            </span>
+
+            <br />
+
+            <span className="text-white">
+              meaningful.
+            </span>
+          </h2>
+
+          {/* Description */}
+
+          <p
+            className="
+              mt-7
+              max-w-[560px]
+              text-sm
+              leading-7
+              sm:text-base
+            "
+            style={{
+              color: "rgba(255,255,255,0.52)",
+            }}
+          >
+            Have an idea, product, experiment, or problem worth solving?
+            Tell me what you&apos;re thinking. I&apos;ll turn the conversation
+            into a clear next step.
+          </p>
+
+          {/* Availability */}
+
+          <div
+            className="
+              mt-8
+              inline-flex
+              items-center
+              gap-3
+              border
+              px-4
+              py-3
+            "
+            style={{
+              borderColor: "rgba(139,92,246,0.28)",
+              background: "rgba(91,108,255,0.035)",
+            }}
+          >
+            <motion.span
+              className="h-2 w-2 rounded-full"
+              style={{
+                background: "#34d399",
+                boxShadow: "0 0 14px rgba(52,211,153,0.75)",
+              }}
+              animate={{
+                opacity: [0.45, 1, 0.45],
+                scale: [0.9, 1.15, 0.9],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+              }}
+            />
+
+            <span
+              className="
+                text-[10px]
+                uppercase
+                tracking-[0.22em]
+              "
+              style={{
+                color: "rgba(255,255,255,0.56)",
+              }}
+            >
+              Available for selected projects
+            </span>
+          </div>
+        </motion.div>
+
+        {/* ===================================================
+            MAIN GRID
+        =================================================== */}
+
+        <div
+          className="
+            grid
+            items-start
+            gap-8
+            lg:grid-cols-[0.88fr,1.12fr]
+            lg:gap-10
+          "
+        >
+          {/* =================================================
+              LEFT COLUMN
+          ================================================= */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              x: -35,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
+            viewport={{
+              once: true,
+              margin: "-80px",
+            }}
+            transition={{
+              duration: 0.9,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="
+              flex
+              min-h-full
+              flex-col
+              justify-between
+            "
+          >
+            {/* -------------------------------------------------
+                EDITORIAL NOTE
+            ------------------------------------------------- */}
+
+            <div className="max-w-xl">
+              <div className="flex items-start gap-4">
+                <div
+                  className="
+                    mt-2
+                    h-14
+                    w-px
+                    shrink-0
+                  "
                   style={{
-                    color: '#c4b5fd',
+                    background:
+                      "linear-gradient(to bottom, #6366f1, transparent)",
                   }}
-                >
-                  Get in touch
-                </p>
+                />
 
-                <h3 className="text-2xl font-semibold text-white">
-                  Let's build something
-                  <br />
-
-                  <span
+                <div>
+                  <p
+                    className="
+                      text-xs
+                      uppercase
+                      tracking-[0.22em]
+                    "
                     style={{
-                      background:
-                        'linear-gradient(90deg, #a78bfa 0%, #ec4899 52%, #fb923c 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
+                      color: "rgba(255,255,255,0.34)",
                     }}
                   >
-                    extraordinary.
-                  </span>
-                </h3>
+                    A conversation starts here
+                  </p>
+
+                  <p
+                    className="
+                      mt-4
+                      text-sm
+                      leading-7
+                    "
+                    style={{
+                      color: "rgba(255,255,255,0.45)",
+                    }}
+                  >
+                    Whether you have a product idea, technical challenge,
+                    collaboration opportunity, or simply want to say hello,
+                    feel free to reach out.
+                  </p>
+                </div>
               </div>
+            </div>
 
-              {/* ===============================================
-                  EMAIL + PHONE
-              =============================================== */}
-              <div className="space-y-5">
-                {contactItems.map((item, index) => {
-                  const Icon = item.icon;
+            {/* -------------------------------------------------
+                CONTACT META
+            ------------------------------------------------- */}
 
-                  const accent =
-                    index === 0 ? '#a78bfa' : '#f472b6';
+            <div className="mt-14 lg:mt-28">
+              <div
+                className="
+                  mb-8
+                  h-px
+                  w-full
+                "
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(139,92,246,0.42), transparent)",
+                }}
+              />
 
-                  const accentBg =
-                    index === 0
-                      ? 'rgba(139,92,246,0.10)'
-                      : 'rgba(236,72,153,0.09)';
+              <div className="grid gap-7 sm:grid-cols-2">
+                {/* Email */}
 
-                  const accentBorder =
-                    index === 0
-                      ? 'rgba(167,139,250,0.22)'
-                      : 'rgba(244,114,182,0.20)';
-
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="group flex items-center gap-4"
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="group"
+                >
+                  <div className="mb-3 flex items-center gap-3">
+                    <span
+                      className="
+                        flex
+                        h-9
+                        w-9
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                      "
+                      style={{
+                        borderColor: "rgba(167,139,250,0.20)",
+                        background: "rgba(139,92,246,0.06)",
+                        color: "#a78bfa",
+                      }}
                     >
-                      <span
-                        className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center border transition-all duration-300 group-hover:scale-105 group-hover:-translate-y-0.5"
-                        style={{
-                          background: accentBg,
-                          borderColor: accentBorder,
-                          color: accent,
-                        }}
-                      >
-                        <Icon size={19} />
-                      </span>
+                      <Mail size={15} />
+                    </span>
 
-                      <span className="min-w-0 flex-1">
-                        <span
-                          className="block text-xs mb-1"
-                          style={{
-                            color: 'rgba(255,255,255,0.35)',
-                          }}
-                        >
-                          {item.label}
-                        </span>
+                    <span
+                      className="
+                        text-[9px]
+                        uppercase
+                        tracking-[0.25em]
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.34)",
+                      }}
+                    >
+                      Email
+                    </span>
+                  </div>
 
-                        <span
-                          className="block text-sm break-all transition-colors duration-300"
-                          style={{
-                            color: 'rgba(255,255,255,0.86)',
-                          }}
-                        >
-                          {item.value}
-                        </span>
-                      </span>
-
-                      <ArrowUpRight
-                        size={16}
-                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                        style={{
-                          color: accent,
-                        }}
-                      />
-                    </a>
-                  );
-                })}
-
-                {/* =============================================
-                    LOCATION
-                ============================================= */}
-                <div className="flex items-center gap-4">
-                  <span
-                    className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center border"
+                  <p
+                    className="
+                      break-all
+                      text-sm
+                      transition-colors
+                      duration-300
+                      group-hover:text-white
+                    "
                     style={{
-                      background: 'rgba(251,146,60,0.08)',
-                      borderColor: 'rgba(251,146,60,0.20)',
-                      color: '#fb923c',
+                      color: "rgba(255,255,255,0.72)",
                     }}
                   >
-                    <MapPin size={19} />
-                  </span>
+                    {profile.email}
+                  </p>
+                </a>
 
-                  <span>
+                {/* Location */}
+
+                <div>
+                  <div className="mb-3 flex items-center gap-3">
                     <span
-                      className="block text-xs mb-1"
+                      className="
+                        flex
+                        h-9
+                        w-9
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                      "
                       style={{
-                        color: 'rgba(255,255,255,0.35)',
+                        borderColor: "rgba(96,165,250,0.20)",
+                        background: "rgba(59,130,246,0.06)",
+                        color: "#60a5fa",
+                      }}
+                    >
+                      <MapPin size={15} />
+                    </span>
+
+                    <span
+                      className="
+                        text-[9px]
+                        uppercase
+                        tracking-[0.25em]
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.34)",
                       }}
                     >
                       Location
                     </span>
+                  </div>
 
-                    <span className="text-sm text-white/85">
-                      Chennai, India
-                    </span>
+                  <p
+                    className="text-sm"
+                    style={{
+                      color: "rgba(255,255,255,0.72)",
+                    }}
+                  >
+                    Chennai, India
+                  </p>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[10px]
+                    "
+                    style={{
+                      color: "rgba(255,255,255,0.25)",
+                    }}
+                  >
+                    Available worldwide
+                  </p>
+                </div>
+              </div>
+
+              {/* -------------------------------------------------
+                  SOCIAL LINKS
+              ------------------------------------------------- */}
+
+              <div className="mt-9 flex items-center gap-3">
+                {profile.github && (
+                  <a
+                    href={profile.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GitHub"
+                    className="
+                      flex
+                      h-11
+                      w-11
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      transition-all
+                      duration-300
+                      hover:-translate-y-1
+                    "
+                    style={{
+                      borderColor: "rgba(255,255,255,0.10)",
+                      background: "rgba(255,255,255,0.025)",
+                      color: "rgba(255,255,255,0.72)",
+                    }}
+                  >
+                    <FaGithub size={17} />
+                  </a>
+                )}
+
+                {profile.linkedin && (
+                  <a
+                    href={profile.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="LinkedIn"
+                    className="
+                      flex
+                      h-11
+                      w-11
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      transition-all
+                      duration-300
+                      hover:-translate-y-1
+                    "
+                    style={{
+                      borderColor: "rgba(255,255,255,0.10)",
+                      background: "rgba(255,255,255,0.025)",
+                      color: "rgba(255,255,255,0.72)",
+                    }}
+                  >
+                    <FaLinkedinIn size={16} />
+                  </a>
+                )}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* =================================================
+              RIGHT / FORM
+          ================================================= */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 35,
+              scale: 0.985,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+            }}
+            viewport={{
+              once: true,
+              margin: "-80px",
+            }}
+            transition={{
+              duration: 1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="relative"
+          >
+            {/* Form card */}
+
+            <div
+              className="
+                relative
+                overflow-hidden
+                rounded-[26px]
+                border
+              "
+              style={{
+                background:
+                  "linear-gradient(145deg, rgba(18,18,27,0.88), rgba(8,8,14,0.94))",
+                borderColor: "rgba(255,255,255,0.10)",
+                boxShadow:
+                  "0 30px 100px rgba(0,0,0,0.42)",
+                backdropFilter: "blur(24px)",
+              }}
+            >
+              {/* Card top glow */}
+
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  left-0
+                  right-0
+                  top-0
+                  h-px
+                "
+                style={{
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(139,92,246,0.55), rgba(96,165,250,0.45), transparent)",
+                }}
+              />
+
+              {/* ------------------------------------------------
+                  FORM HEADER
+              ------------------------------------------------ */}
+
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  border-b
+                  px-6
+                  py-5
+                  sm:px-8
+                "
+                style={{
+                  borderColor: "rgba(255,255,255,0.07)",
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="
+                      flex
+                      h-9
+                      w-9
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                    "
+                    style={{
+                      background: "rgba(91,108,255,0.08)",
+                      borderColor: "rgba(91,108,255,0.20)",
+                      color: "#8b9cff",
+                    }}
+                  >
+                    <Sparkles size={15} />
+                  </div>
+
+                  <div>
+                    <p
+                      className="
+                        text-[9px]
+                        uppercase
+                        tracking-[0.25em]
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.30)",
+                      }}
+                    >
+                      Direct message
+                    </p>
+
+                    <p
+                      className="
+                        mt-1
+                        text-sm
+                        font-medium
+                        text-white
+                      "
+                    >
+                      Start a conversation
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className="
+                    hidden
+                    items-center
+                    gap-2
+                    sm:flex
+                  "
+                >
+                  <span
+                    className="
+                      h-1.5
+                      w-1.5
+                      rounded-full
+                    "
+                    style={{
+                      background: "#34d399",
+                      boxShadow:
+                        "0 0 10px rgba(52,211,153,0.7)",
+                    }}
+                  />
+
+                  <span
+                    className="
+                      text-[9px]
+                      uppercase
+                      tracking-[0.18em]
+                    "
+                    style={{
+                      color: "rgba(255,255,255,0.32)",
+                    }}
+                  >
+                    Online
                   </span>
                 </div>
               </div>
 
-              {/* =================================================
-                  SOCIAL LINKS
-              ================================================= */}
-              {(profile.github || profile.linkedin) && (
-                <div
-                  className="flex flex-wrap gap-3 pt-5 border-t"
-                  style={{
-                    borderColor: 'rgba(255,255,255,0.08)',
-                  }}
-                >
-                  {profile.github && (
-                    <Button
-                      as="a"
-                      variant="ghost"
-                      href={profile.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      icon={<FaGithub size={17} />}
-                    >
-                      GitHub
-                    </Button>
-                  )}
+              {/* ------------------------------------------------
+                  FORM BODY
+              ------------------------------------------------ */}
 
-                  {profile.linkedin && (
-                    <Button
-                      as="a"
-                      variant="ghost"
-                      href={profile.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      icon={<FaLinkedin size={17} />}
-                    >
-                      LinkedIn
-                    </Button>
-                  )}
-                </div>
-              )}
-            </GlassCard>
-
-            {/* =================================================
-                LOCATION MAP
-            ================================================= */}
-            <div
-              className="relative rounded-2xl overflow-hidden border h-52"
-              style={{
-                borderColor: 'rgba(167,139,250,0.16)',
-                background: 'rgba(10,10,16,0.82)',
-                boxShadow:
-                  '0 20px 70px rgba(0,0,0,0.30)',
-              }}
-            >
-              <iframe
-                title="Chennai location map"
-                src="https://www.google.com/maps?q=Chennai,India&output=embed"
-                className="w-full h-full border-0 grayscale-[40%] opacity-90"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Chennai,India"
-                target="_blank"
-                rel="noreferrer"
-                className="absolute top-3 left-3 rounded-lg px-4 py-2 text-xs font-medium flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5"
-                style={{
-                  background:
-                    'rgba(15,10,24,0.92)',
-                  color: '#c4b5fd',
-                  border:
-                    '1px solid rgba(167,139,250,0.30)',
-                  backdropFilter: 'blur(14px)',
-                }}
-              >
-                Open in Maps
-                <ArrowUpRight size={14} />
-              </a>
-            </div>
-          </motion.div>
-
-          {/* =====================================================
-              RIGHT SIDE — CONTACT FORM
-          ===================================================== */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              delay: 0.1,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            <GlassCard
-              className="p-6 md:p-8"
-              style={{
-                background:
-                  'linear-gradient(145deg, rgba(255,255,255,0.055), rgba(236,72,153,0.025))',
-                borderColor: 'rgba(236,72,153,0.14)',
-              }}
-            >
-              <div className="mb-8">
-                <p
-                  className="text-xs uppercase tracking-[0.22em] mb-2 font-medium"
-                  style={{
-                    color: '#f0abfc',
-                  }}
-                >
-                  Send a message
-                </p>
-
-                <h3 className="text-2xl font-semibold text-white">
-                  Have a project in mind?
-                </h3>
-
-                <p
-                  className="text-sm mt-2"
-                  style={{
-                    color: 'rgba(255,255,255,0.52)',
-                  }}
-                >
-                  Fill out the form below and I'll get back to you.
-                </p>
-              </div>
-
-              {/* =================================================
-                  FORM
-              ================================================= */}
               <form
                 onSubmit={handleSubmit}
+                className="
+                  space-y-7
+                  px-6
+                  py-7
+                  sm:px-8
+                  sm:py-8
+                "
                 noValidate
-                className="space-y-5"
               >
-                {/* =================================================
+                {/* ==============================================
                     NAME
-                ================================================= */}
+                ============================================== */}
+
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="text-xs uppercase tracking-wide"
-                    style={{
-                      color: 'rgba(255,255,255,0.40)',
-                    }}
-                  >
-                    Your Name
-                  </label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label
+                      htmlFor="contact-name"
+                      className="
+                        flex
+                        items-center
+                        gap-2
+                        text-[10px]
+                        uppercase
+                        tracking-[0.22em]
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.38)",
+                      }}
+                    >
+                      <UserRound
+                        size={12}
+                        style={{
+                          color: "#a78bfa",
+                        }}
+                      />
+
+                      Your name
+                    </label>
+                  </div>
 
                   <input
-                    id="name"
+                    id="contact-name"
                     type="text"
                     autoComplete="name"
-                    placeholder="Enter your name"
                     value={form.name}
-                    onChange={(e) => {
-                      setForm((f) => ({
-                        ...f,
-                        name: e.target.value,
-                      }));
-                      setErrors((prev) => ({
-                        ...prev,
-                        name: undefined,
-                      }));
-                      setStatus('idle');
-                    }}
-                    className="w-full mt-2 border rounded-xl px-4 py-3.5 text-sm outline-none transition-all duration-300 placeholder:text-white/25"
+                    placeholder="Your name..."
+                    onChange={(event) =>
+                      updateName(event.target.value)
+                    }
+                    className="
+                      h-14
+                      w-full
+                      rounded-full
+                      border
+                      bg-transparent
+                      px-5
+                      text-sm
+                      text-white
+                      outline-none
+                      transition-all
+                      duration-300
+                      placeholder:text-white/20
+                    "
                     style={{
-                      background:
-                        'rgba(0,0,0,0.25)',
                       borderColor: errors.name
-                        ? '#f87171'
-                        : 'rgba(255,255,255,0.10)',
-                      color: '#ffffff',
+                        ? "#f87171"
+                        : "rgba(255,255,255,0.09)",
+                      background:
+                        "rgba(255,255,255,0.018)",
+                    }}
+                    onFocus={(event) => {
+                      event.currentTarget.style.borderColor =
+                        "#8b5cf6";
+                      event.currentTarget.style.boxShadow =
+                        "0 0 0 3px rgba(139,92,246,0.08)";
+                    }}
+                    onBlur={(event) => {
+                      event.currentTarget.style.borderColor =
+                        errors.name
+                          ? "#f87171"
+                          : "rgba(255,255,255,0.09)";
+                      event.currentTarget.style.boxShadow =
+                        "none";
                     }}
                     aria-invalid={!!errors.name}
                     aria-describedby={
                       errors.name
-                        ? 'name-error'
+                        ? "contact-name-error"
                         : undefined
                     }
                   />
 
                   {errors.name && (
                     <p
-                      id="name-error"
-                      className="text-xs mt-1.5 text-red-400"
+                      id="contact-name-error"
+                      className="
+                        mt-2
+                        text-xs
+                        text-red-400
+                      "
                     >
                       {errors.name}
                     </p>
                   )}
                 </div>
 
-                {/* =================================================
+                {/* ==============================================
                     EMAIL
-                ================================================= */}
+                ============================================== */}
+
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="text-xs uppercase tracking-wide"
-                    style={{
-                      color: 'rgba(255,255,255,0.40)',
-                    }}
-                  >
-                    Email Address
-                  </label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label
+                      htmlFor="contact-email"
+                      className="
+                        flex
+                        items-center
+                        gap-2
+                        text-[10px]
+                        uppercase
+                        tracking-[0.22em]
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.38)",
+                      }}
+                    >
+                      <AtSign
+                        size={12}
+                        style={{
+                          color: "#60a5fa",
+                        }}
+                      />
+
+                      Email address
+                    </label>
+                  </div>
 
                   <input
-                    id="email"
+                    id="contact-email"
                     type="email"
                     autoComplete="email"
-                    placeholder="you@example.com"
                     value={form.email}
-                    onChange={(e) => {
-                      setForm((f) => ({
-                        ...f,
-                        email: e.target.value,
-                      }));
-                      setErrors((prev) => ({
-                        ...prev,
-                        email: undefined,
-                      }));
-                      setStatus('idle');
-                    }}
-                    className="w-full mt-2 border rounded-xl px-4 py-3.5 text-sm outline-none transition-all duration-300 placeholder:text-white/25"
+                    placeholder="you@example.com"
+                    onChange={(event) =>
+                      updateEmail(event.target.value)
+                    }
+                    className="
+                      h-14
+                      w-full
+                      rounded-full
+                      border
+                      bg-transparent
+                      px-5
+                      text-sm
+                      text-white
+                      outline-none
+                      transition-all
+                      duration-300
+                      placeholder:text-white/20
+                    "
                     style={{
-                      background:
-                        'rgba(0,0,0,0.25)',
                       borderColor: errors.email
-                        ? '#f87171'
-                        : 'rgba(255,255,255,0.10)',
-                      color: '#ffffff',
+                        ? "#f87171"
+                        : "rgba(255,255,255,0.09)",
+                      background:
+                        "rgba(255,255,255,0.018)",
+                    }}
+                    onFocus={(event) => {
+                      event.currentTarget.style.borderColor =
+                        "#60a5fa";
+                      event.currentTarget.style.boxShadow =
+                        "0 0 0 3px rgba(96,165,250,0.08)";
+                    }}
+                    onBlur={(event) => {
+                      event.currentTarget.style.borderColor =
+                        errors.email
+                          ? "#f87171"
+                          : "rgba(255,255,255,0.09)";
+                      event.currentTarget.style.boxShadow =
+                        "none";
                     }}
                     aria-invalid={!!errors.email}
                     aria-describedby={
                       errors.email
-                        ? 'email-error'
+                        ? "contact-email-error"
                         : undefined
                     }
                   />
 
                   {errors.email && (
                     <p
-                      id="email-error"
-                      className="text-xs mt-1.5 text-red-400"
+                      id="contact-email-error"
+                      className="
+                        mt-2
+                        text-xs
+                        text-red-400
+                      "
                     >
                       {errors.email}
                     </p>
                   )}
                 </div>
 
-                {/* =================================================
+                {/* ==============================================
                     MESSAGE
-                ================================================= */}
+                ============================================== */}
+
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="text-xs uppercase tracking-wide"
-                    style={{
-                      color: 'rgba(255,255,255,0.40)',
-                    }}
-                  >
-                    Your Message
-                  </label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label
+                      htmlFor="contact-message"
+                      className="
+                        flex
+                        items-center
+                        gap-2
+                        text-[10px]
+                        uppercase
+                        tracking-[0.22em]
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.38)",
+                      }}
+                    >
+                      <Lightbulb
+                        size={12}
+                        style={{
+                          color: "#fbbf24",
+                        }}
+                      />
+
+                      Tell me about your idea
+                    </label>
+
+                    <span
+                      className="
+                        text-[9px]
+                        tabular-nums
+                      "
+                      style={{
+                        color: "rgba(255,255,255,0.24)",
+                      }}
+                    >
+                      {String(messageCount).padStart(3, "0")}
+                      /5000
+                    </span>
+                  </div>
 
                   <textarea
-                    id="message"
-                    rows={6}
+                    id="contact-message"
+                    rows={7}
                     maxLength={5000}
-                    placeholder="Tell me about your project or opportunity..."
                     value={form.message}
-                    onChange={(e) => {
-                      setForm((f) => ({
-                        ...f,
-                        message: e.target.value,
-                      }));
-                      setErrors((prev) => ({
-                        ...prev,
-                        message: undefined,
-                      }));
-                      setStatus('idle');
-                    }}
-                    className="w-full mt-2 border rounded-xl px-4 py-3.5 text-sm outline-none transition-all duration-300 resize-none placeholder:text-white/25"
+                    placeholder="Tell me what you're building..."
+                    onChange={(event) =>
+                      updateMessage(event.target.value)
+                    }
+                    className="
+                      w-full
+                      resize-none
+                      rounded-[24px]
+                      border
+                      bg-transparent
+                      px-5
+                      py-5
+                      text-sm
+                      leading-7
+                      text-white
+                      outline-none
+                      transition-all
+                      duration-300
+                      placeholder:text-white/20
+                    "
                     style={{
-                      background:
-                        'rgba(0,0,0,0.25)',
                       borderColor: errors.message
-                        ? '#f87171'
-                        : 'rgba(255,255,255,0.10)',
-                      color: '#ffffff',
+                        ? "#f87171"
+                        : "rgba(255,255,255,0.09)",
+                      background:
+                        "rgba(255,255,255,0.018)",
+                    }}
+                    onFocus={(event) => {
+                      event.currentTarget.style.borderColor =
+                        "#fbbf24";
+                      event.currentTarget.style.boxShadow =
+                        "0 0 0 3px rgba(251,191,36,0.06)";
+                    }}
+                    onBlur={(event) => {
+                      event.currentTarget.style.borderColor =
+                        errors.message
+                          ? "#f87171"
+                          : "rgba(255,255,255,0.09)";
+                      event.currentTarget.style.boxShadow =
+                        "none";
                     }}
                     aria-invalid={!!errors.message}
                     aria-describedby={
                       errors.message
-                        ? 'message-error'
+                        ? "contact-message-error"
                         : undefined
                     }
                   />
 
                   {errors.message && (
                     <p
-                      id="message-error"
-                      className="text-xs mt-1.5 text-red-400"
+                      id="contact-message-error"
+                      className="
+                        mt-2
+                        text-xs
+                        text-red-400
+                      "
                     >
                       {errors.message}
                     </p>
                   )}
+
+                  {/* Message processor */}
+
+                  <div
+                    className="
+                      mt-4
+                      flex
+                      items-center
+                      justify-between
+                      rounded-full
+                      border
+                      px-4
+                      py-2.5
+                    "
+                    style={{
+                      background:
+                        "rgba(255,255,255,0.018)",
+                      borderColor:
+                        "rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <ActivityIcon
+                        size={13}
+                        style={{
+                          color: activity.color,
+                        }}
+                      />
+
+                      <span
+                        className="
+                          text-[8px]
+                          uppercase
+                          tracking-[0.20em]
+                        "
+                        style={{
+                          color:
+                            "rgba(255,255,255,0.34)",
+                        }}
+                      >
+                        {activity.label}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      {[0, 1, 2, 3, 4, 5].map(
+                        (bar) => (
+                          <motion.span
+                            key={bar}
+                            className="
+                              w-[2px]
+                              rounded-full
+                            "
+                            style={{
+                              background:
+                                activity.color,
+                            }}
+                            animate={{
+                              height:
+                                form.message.length >
+                                0
+                                  ? [
+                                      4,
+                                      10 + (bar % 3) * 4,
+                                      5,
+                                    ]
+                                  : [4, 5, 4],
+                              }}
+                            transition={{
+                              duration:
+                                0.8 + bar * 0.08,
+                              repeat: Infinity,
+                              delay: bar * 0.06,
+                            }}
+                          />
+                        ),
+                      )}
+                    </div>
+                  </div>
                 </div>
 
-                {/* =================================================
-                    SUBMIT BUTTON
-                ================================================= */}
-                <Button
-                  variant="primary"
-                  disabled={status === 'sending'}
-                  className="w-full"
-                  icon={
-                    status === 'sending' ? (
-                      <Loader2
-                        size={17}
-                        className="animate-spin"
-                      />
-                    ) : (
-                      <Send size={16} />
-                    )
-                  }
-                >
-                  {status === 'sending'
-                    ? 'Sending...'
-                    : 'Send Message'}
-                </Button>
+                {/* ==============================================
+                    SEND BUTTON
+                ============================================== */}
 
-                {/* =================================================
+                <motion.button
+                  type="submit"
+                  disabled={status === "sending"}
+                  whileHover={
+                    status === "sending"
+                      ? undefined
+                      : {
+                          scale: 1.01,
+                        }
+                  }
+                  whileTap={
+                    status === "sending"
+                      ? undefined
+                      : {
+                          scale: 0.985,
+                        }
+                  }
+                  className="
+                    group
+                    relative
+                    flex
+                    h-[68px]
+                    w-full
+                    items-center
+                    justify-between
+                    overflow-hidden
+                    rounded-full
+                    border
+                    px-6
+                    text-sm
+                    font-medium
+                    text-white
+                    disabled:cursor-not-allowed
+                  "
+                  style={{
+                    borderColor:
+                      "rgba(139,92,246,0.38)",
+                    background:
+                      "linear-gradient(90deg, rgba(124,58,237,0.30), rgba(91,108,255,0.22), rgba(37,99,235,0.26))",
+                    boxShadow:
+                      "0 15px 50px rgba(79,70,229,0.14)",
+                  }}
+                >
+                  {/* Moving light */}
+
+                  <motion.div
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-y-0
+                      w-24
+                      -skew-x-12
+                    "
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
+                    }}
+                    animate={{
+                      x: ["-150%", "600%"],
+                    }}
+                    transition={{
+                      duration: 3.5,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+
+                  <span className="relative z-10 flex items-center gap-3">
+                    <span
+                      className="
+                        flex
+                        h-9
+                        w-9
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                      "
+                      style={{
+                        borderColor:
+                          "rgba(255,255,255,0.16)",
+                        background:
+                          "rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      {status === "sending" ? (
+                        <LoaderCircle
+                          size={17}
+                          className="animate-spin"
+                        />
+                      ) : status === "success" ? (
+                        <Check size={17} />
+                      ) : (
+                        <Send size={16} />
+                      )}
+                    </span>
+
+                    <span>
+                      {status === "sending"
+                        ? "Sending..."
+                        : status === "success"
+                          ? "Message sent"
+                          : "Send message"}
+                    </span>
+                  </span>
+
+                  <ArrowUpRight
+                    size={18}
+                    className="
+                      relative
+                      z-10
+                      transition-transform
+                      duration-300
+                      group-hover:-translate-y-1
+                      group-hover:translate-x-1
+                    "
+                    style={{
+                      color:
+                        "rgba(255,255,255,0.58)",
+                    }}
+                  />
+                </motion.button>
+
+                {/* ==============================================
                     SUCCESS
-                ================================================= */}
-                {status === 'success' && (
-                  <motion.p
+                ============================================== */}
+
+                {status === "success" && (
+                  <motion.div
                     initial={{
                       opacity: 0,
-                      y: 5,
+                      y: 10,
                     }}
                     animate={{
                       opacity: 1,
                       y: 0,
                     }}
-                    className="flex items-center gap-2 text-sm text-emerald-400"
-                    role="status"
+                    className="
+                      flex
+                      items-center
+                      gap-3
+                      rounded-full
+                      border
+                      px-4
+                      py-3
+                    "
+                    style={{
+                      borderColor:
+                        "rgba(52,211,153,0.22)",
+                      background:
+                        "rgba(16,185,129,0.055)",
+                    }}
                   >
-                    <CheckCircle2 size={17} />
-                    Message sent successfully. Thanks for
-                    reaching out!
-                  </motion.p>
+                    <span
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                      "
+                      style={{
+                        background:
+                          "rgba(16,185,129,0.10)",
+                        color: "#34d399",
+                      }}
+                    >
+                      <CheckCircle2 size={16} />
+                    </span>
+
+                    <div>
+                      <p
+                        className="
+                          text-xs
+                          font-medium
+                        "
+                        style={{
+                          color: "#6ee7b7",
+                        }}
+                      >
+                        Message received.
+                      </p>
+
+                      <p
+                        className="
+                          mt-0.5
+                          text-[10px]
+                        "
+                        style={{
+                          color:
+                            "rgba(255,255,255,0.30)",
+                        }}
+                      >
+                        I&apos;ll get back to you soon.
+                      </p>
+                    </div>
+                  </motion.div>
                 )}
 
-                {/* =================================================
+                {/* ==============================================
                     ERROR
-                ================================================= */}
-                {status === 'error' && (
-                  <motion.p
+                ============================================== */}
+
+                {status === "error" && (
+                  <motion.div
                     initial={{
                       opacity: 0,
-                      y: 5,
+                      y: 10,
                     }}
                     animate={{
                       opacity: 1,
                       y: 0,
                     }}
-                    className="flex items-center gap-2 text-sm text-red-400"
-                    role="alert"
+                    className="
+                      rounded-2xl
+                      border
+                      px-4
+                      py-3
+                    "
+                    style={{
+                      borderColor:
+                        "rgba(248,113,113,0.22)",
+                      background:
+                        "rgba(127,29,29,0.08)",
+                    }}
                   >
-                    <AlertCircle size={17} />
-                    Something went wrong. Please try again
-                    or email me directly.
-                  </motion.p>
+                    <p
+                      className="
+                        text-xs
+                        text-red-400
+                      "
+                    >
+                      Something went wrong. Please try
+                      again or email me directly.
+                    </p>
+                  </motion.div>
                 )}
               </form>
-            </GlassCard>
+
+              {/* =================================================
+                  CARD FOOTER
+              ================================================= */}
+
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  border-t
+                  px-6
+                  py-5
+                  sm:px-8
+                "
+                style={{
+                  borderColor:
+                    "rgba(255,255,255,0.06)",
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="
+                      h-1
+                      w-1
+                      rounded-full
+                    "
+                    style={{
+                      background:
+                        "rgba(255,255,255,0.28)",
+                    }}
+                  />
+
+                  <span
+                    className="
+                      text-[8px]
+                      uppercase
+                      tracking-[0.22em]
+                    "
+                    style={{
+                      color:
+                        "rgba(255,255,255,0.22)",
+                    }}
+                  >
+                    Suhail Khan / 2026
+                  </span>
+                </div>
+
+                <span
+                  className="
+                    text-[8px]
+                    uppercase
+                    tracking-[0.22em]
+                  "
+                  style={{
+                    color:
+                      "rgba(255,255,255,0.18)",
+                  }}
+                >
+                  Chennai + Worldwide
+                </span>
+              </div>
+            </div>
           </motion.div>
         </div>
+
+        {/* =====================================================
+            BOTTOM FOOTER
+        ===================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 1,
+            delay: 0.3,
+          }}
+          className="
+            mt-16
+            flex
+            flex-col
+            gap-5
+            border-t
+            pt-7
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+          "
+          style={{
+            borderColor:
+              "rgba(255,255,255,0.06)",
+          }}
+        >
+          <div
+            className="
+              flex
+              flex-wrap
+              items-center
+              gap-4
+            "
+          >
+            <span
+              className="
+                text-[9px]
+                uppercase
+                tracking-[0.28em]
+              "
+              style={{
+                color:
+                  "rgba(255,255,255,0.22)",
+              }}
+            >
+              Computer Science
+            </span>
+
+            <span
+              className="
+                h-px
+                w-7
+              "
+              style={{
+                background:
+                  "rgba(139,92,246,0.38)",
+              }}
+            />
+
+            <span
+              className="
+                text-[9px]
+                uppercase
+                tracking-[0.28em]
+              "
+              style={{
+                color:
+                  "rgba(255,255,255,0.22)",
+              }}
+            >
+              Data Science
+            </span>
+
+            <span
+              className="
+                h-px
+                w-7
+              "
+              style={{
+                background:
+                  "rgba(139,92,246,0.38)",
+              }}
+            />
+
+            <span
+              className="
+                text-[9px]
+                uppercase
+                tracking-[0.28em]
+              "
+              style={{
+                color:
+                  "rgba(255,255,255,0.22)",
+              }}
+            >
+              Artificial Intelligence
+            </span>
+          </div>
+
+          <p
+            className="
+              text-[9px]
+              uppercase
+              tracking-[0.28em]
+            "
+            style={{
+              color:
+                "rgba(255,255,255,0.16)",
+            }}
+          >
+            Let&apos;s make something meaningful.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
