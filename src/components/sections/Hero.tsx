@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useRef,
   useState,
   type MouseEvent,
 } from 'react';
@@ -126,23 +127,30 @@ export function Hero() {
     [-20, 20],
   );
 
+  const rafParallaxRef = useRef<number | null>(null);
+
   const handleMouseMove = (
     event: MouseEvent<HTMLElement>,
   ) => {
-    const rect =
-      event.currentTarget.getBoundingClientRect();
+    const { clientX, clientY, currentTarget } = event;
+    if (rafParallaxRef.current !== null) return;
 
-    const x =
-      (event.clientX - rect.left) / rect.width;
+    rafParallaxRef.current = requestAnimationFrame(() => {
+      const rect = currentTarget.getBoundingClientRect();
+      const x = (clientX - rect.left) / (rect.width || 1);
+      const y = (clientY - rect.top) / (rect.height || 1);
 
-    const y =
-      (event.clientY - rect.top) / rect.height;
-
-    mouseX.set((x - 0.5) * 2);
-    mouseY.set((y - 0.5) * 2);
+      mouseX.set((x - 0.5) * 2);
+      mouseY.set((y - 0.5) * 2);
+      rafParallaxRef.current = null;
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafParallaxRef.current !== null) {
+      cancelAnimationFrame(rafParallaxRef.current);
+      rafParallaxRef.current = null;
+    }
     mouseX.set(0);
     mouseY.set(0);
   };
@@ -353,61 +361,6 @@ export function Hero() {
       />
 
       {/* =====================================================
-    TOP LEFT HERO LABEL
-===================================================== */}
-
-<motion.div
-  className="
-    absolute
-    left-6
-    top-[92px]
-    z-10
-    flex
-    items-center
-    gap-4
-    lg:left-12
-    lg:top-[108px]
-  "
-  initial={{
-    opacity: 0,
-    x: -20,
-  }}
-  animate={{
-    opacity: 1,
-    x: 0,
-  }}
-  transition={{
-    duration: 0.8,
-    delay: 0.5,
-    ease: [0.16, 1, 0.3, 1],
-  }}
->
-  <span
-    className="
-      h-px
-      w-10
-      shrink-0
-      bg-[#6675ff]
-      lg:w-16
-    "
-  />
-
-  <span
-    className="
-      whitespace-nowrap
-      text-[9px]
-      font-medium
-      uppercase
-      tracking-[0.42em]
-      text-white/35
-      lg:text-[10px]
-    "
-  >
-    SUHAIL KHAN
-  </span>
-</motion.div>
-
-      {/* =====================================================
           TOP RIGHT INDEX
       ===================================================== */}
 
@@ -473,6 +426,31 @@ export function Hero() {
               max-w-[600px]
             "
           >
+            {/* HERO IDENTITY ACCENT */}
+
+            <motion.div
+              className="mb-4 flex items-center gap-3.5"
+              initial={{
+                opacity: 0,
+                x: -16,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              transition={{
+                duration: 0.8,
+                delay: 0.35,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              <span className="h-px w-10 shrink-0 bg-[#6675ff] lg:w-14" />
+
+              <span className="text-[10px] font-medium uppercase tracking-[0.42em] text-white/50">
+                SUHAIL KHAN
+              </span>
+            </motion.div>
+
             {/* ROLE */}
 
             <motion.div
@@ -1009,79 +987,6 @@ export function Hero() {
                     'radial-gradient(circle, rgba(91,108,255,0.10) 0%, rgba(91,108,255,0.03) 45%, transparent 70%)',
                 }}
               />
-
-              {/* PHOTO IDENTITY */}
-
-              <motion.div
-                className="
-                  absolute
-                  bottom-[5%]
-                  left-[8%]
-                  z-20
-                "
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{
-                  duration: 0.9,
-                  delay: 1.65,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
-                <div
-                  className="
-                    mb-3
-                    flex
-                    items-center
-                    gap-3
-                  "
-                >
-                  <span
-                    className="
-                      h-px
-                      w-12
-                      bg-[#6675ff]
-                    "
-                  />
-
-                  <span
-                    className="
-                      text-[9px]
-                      uppercase
-                      tracking-[0.3em]
-                      text-white/40
-                    "
-                  >
-                    AI · DATA · ENGINEERING
-                  </span>
-                </div>
-
-                <p
-                  className="
-                    text-xl
-                    font-medium
-                    tracking-tight
-                    text-white
-                  "
-                >
-                  Suhail Khan
-                </p>
-
-                <p
-                  className="
-                    mt-1
-                    text-xs
-                    text-white/40
-                  "
-                >
-                  AI Engineer &amp; Full Stack Developer
-                </p>
-              </motion.div>
             </motion.div>
 
             {/* SIDE INDEX */}
@@ -1187,6 +1092,54 @@ export function Hero() {
       </motion.button>
 
       {/* =====================================================
+          PHOTO IDENTITY — Side of photo near Ask about me
+      ===================================================== */}
+
+      <motion.div
+        className="
+          pointer-events-auto
+          absolute
+          bottom-20
+          right-5
+          z-20
+          hidden
+          sm:block
+          lg:bottom-24
+          lg:right-8
+        "
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.9,
+          delay: 1.4,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        <div className="rounded-2xl border border-white/10 bg-[#070b14]/85 px-4 py-3 backdrop-blur-md shadow-2xl">
+          <div className="mb-1.5 flex items-center gap-2.5">
+            <span className="h-px w-8 bg-[#6675ff]" />
+            <span className="text-[9px] uppercase tracking-[0.28em] text-[#818cf8] font-medium">
+              AI · DATA · ENGINEERING
+            </span>
+          </div>
+
+          <p className="text-base font-semibold tracking-tight text-white font-[var(--font-display)]">
+            Suhail Khan
+          </p>
+
+          <p className="mt-0.5 text-xs text-white/50">
+            AI Engineer &amp; Full Stack Developer
+          </p>
+        </div>
+      </motion.div>
+
+      {/* =====================================================
           BOTTOM RIGHT LOCATION
       ===================================================== */}
 
@@ -1194,7 +1147,7 @@ export function Hero() {
         className="
           absolute
           bottom-7
-          right-8
+          right-48
           z-20
           hidden
           text-[9px]
@@ -1202,7 +1155,7 @@ export function Hero() {
           tracking-[0.3em]
           text-white/25
           md:block
-          lg:right-12
+          lg:right-52
         "
         initial={{
           opacity: 0,

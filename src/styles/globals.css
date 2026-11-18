@@ -338,3 +338,12 @@ body::before {
     padding-inline: 1.1rem;
   }
 }
+
+/* ===============================================================
+   SCROLL PERFORMANCE BOOST (OFFSCREEN CONTAINMENT)
+   =============================================================== */
+
+section:not(#home) {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}

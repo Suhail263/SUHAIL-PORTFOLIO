@@ -246,7 +246,7 @@ export function Internship() {
 
                     {/* Top accent line */}
                     <motion.div
-                      className="absolute left-0 top-0 h-[2px]"
+                      className="absolute left-0 top-0 h-[2px] w-[65%] origin-left"
                       style={{
                         background: `linear-gradient(
                           90deg,
@@ -254,8 +254,8 @@ export function Internship() {
                           transparent
                         )`,
                       }}
-                      initial={{ width: '0%' }}
-                      whileInView={{ width: '65%' }}
+                      initial={{ scaleX: 0 }}
+                      whileInView={{ scaleX: 1 }}
                       viewport={{ once: true }}
                       transition={{
                         duration: 1,

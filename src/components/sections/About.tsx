@@ -169,7 +169,7 @@ function Stat({
       {/* colored indicator */}
 
       <motion.div
-        className="mt-3 h-[2px] rounded-full"
+        className="mt-3 h-[2px] w-12 rounded-full origin-left"
         style={{
           background: `linear-gradient(
             90deg,
@@ -179,11 +179,11 @@ function Stat({
           boxShadow: `0 0 10px ${accent.glow}`,
         }}
         initial={{
-          width: 20,
+          scaleX: 0.4,
           opacity: 0.5,
         }}
         whileInView={{
-          width: 48,
+          scaleX: 1,
           opacity: 1,
         }}
         viewport={{
