@@ -13,76 +13,75 @@ export interface AvatarResponse {
 const BASE_URL = import.meta.env.BASE_URL;
 
 /* =========================================================================
-   RESUME KNOWLEDGE BASE RESPONSES (STRICTLY ABOUT SUHAIL KHAN)
+   CONVERSATIONAL CHATGPT-STYLE RESPONSES (STRICTLY ABOUT SUHAIL'S RESUME)
    ========================================================================= */
 
 const greetingResponse = (): AvatarResponse => ({
-  text: `Hello! I'm Suhail's personal AI guide. I'm here exclusively to answer questions about Suhail Khan, his resume, projects, skills, education, and career experience. How can I help you today?`,
+  text: `Hi! I'm Suhail's AI guide. I'm here to answer any questions about Suhail Khan, his resume, skills, projects, and education. What would you like to know about him?`,
 });
 
 const aboutResponse = (): AvatarResponse => ({
-  text: `${profile.name} is a passionate Computer Science Engineering graduate specializing in Data Science and Artificial Intelligence from Dr. MGR Educational and Research Institute, Chennai. He is actively seeking a Graduate Engineering Trainee position where he can apply his strong skills in Python, Machine Learning, Data Analytics, and Web Development to real-world engineering challenges.`,
+  text: `Suhail Khan is a Computer Science and Engineering student specializing in Data Science and AI at Dr. MGR Educational and Research Institute in Chennai. He maintains a 7.67 CGPA and has hands-on experience in machine learning, Python, and web development. He is actively looking for a Graduate Engineering Trainee role.`,
   action: { type: 'navigate', target: '#about' },
 });
 
 const careerGoalResponse = (): AvatarResponse => ({
-  text: `Suhail is actively seeking a Graduate Engineering Trainee position in Data Science, Artificial Intelligence, or Full Stack Development. He brings hands-on experience in machine learning workflows, data analytics with Python and IBM Cognos, and full-stack web applications. You can contact him directly to discuss open opportunities!`,
+  text: `Suhail is actively looking for a Graduate Engineering Trainee position in Data Science, Artificial Intelligence, or Full Stack Development. He brings practical experience in Python, machine learning workflows, and data analytics. You can reach out to him directly to discuss open opportunities!`,
   action: { type: 'navigate', target: '#contact' },
 });
 
 const educationResponse = (): AvatarResponse => {
   const btech = education[0];
-  const twelveth = education[1];
   return {
-    text: `Suhail is pursuing his ${btech.degree} at ${btech.institution} (${btech.period}), maintaining a current CGPA of 7.67. He completed his 12th Standard with a score of ${twelveth.detail.replace('Percentage: ', '')}.`,
+    text: `Suhail is pursuing his ${btech.degree} at ${btech.institution}, graduating in 2027. He currently maintains a 7.67 CGPA, and completed his 12th standard with 67%.`,
     action: { type: 'navigate', target: '#education' },
   };
 };
 
 const cgpaResponse = (): AvatarResponse => ({
-  text: `Suhail's current CGPA is 7.67 in his B.Tech Computer Science Engineering program with specialization in Data Science & AI at Dr. MGR Educational and Research Institute, Chennai.`,
+  text: `Suhail currently maintains a 7.67 CGPA in his B.Tech Computer Science program at Dr. MGR Educational and Research Institute in Chennai.`,
   action: { type: 'navigate', target: '#education' },
 });
 
 const collegeResponse = (): AvatarResponse => ({
-  text: `Suhail studies at Dr. MGR Educational and Research Institute in Chennai, Tamil Nadu, pursuing his B.Tech in Computer Science Engineering (Data Science & AI) from 2023 to 2027.`,
+  text: `Suhail studies at Dr. MGR Educational and Research Institute in Chennai, pursuing his B.Tech in Computer Science Engineering with specialization in Data Science and AI from 2023 to 2027.`,
   action: { type: 'navigate', target: '#education' },
 });
 
 const allSkillsResponse = (): AvatarResponse => ({
-  text: `Suhail's technical toolkit includes: Programming in Python, Java, C, and C++; Web Technologies including HTML, CSS, and JavaScript; Cloud Platforms like AWS EC2, Snapshot Management, and Cloud Storage; Tools like Git, GitHub, and IBM Cognos BI; along with Machine Learning and Data Analytics fundamentals.`,
+  text: `Suhail's main programming languages are Python, Java, C, and C++. For web development, he works with HTML, CSS, and JavaScript. He also has practical experience with AWS cloud services, Git, and IBM Cognos for data analytics.`,
   action: { type: 'navigate', target: '#skills' },
 });
 
 const pythonSkillsResponse = (): AvatarResponse => ({
-  text: `Python is one of Suhail's strongest programming languages. He has utilized Python for data science workflows, machine learning model development, automated expense tracking applications, and completed an internship focused on Python for Data Science at Codebind Technologies.`,
+  text: `Yes, absolutely! Python is one of Suhail's strongest languages. He has used it for data science workflows, machine learning models, and automated financial applications like his Expense Tracker.`,
   action: { type: 'navigate', target: '#skills' },
 });
 
 const javaSkillsResponse = (): AvatarResponse => ({
-  text: `Suhail is proficient in Java and holds an official IBM Java Certification earned in 2024, demonstrating strong core object-oriented programming concepts.`,
+  text: `Yes, Suhail is proficient in Java and holds an official IBM Java Certificate earned in 2024, demonstrating strong object-oriented programming fundamentals.`,
   action: { type: 'navigate', target: '#skills' },
 });
 
 const webSkillsResponse = (): AvatarResponse => ({
-  text: `Suhail's web development capabilities include HTML, CSS, and modern JavaScript. He applied these skills during his Web Development Internship at Cognifyz Technologies and in building his Student Login & Dashboard web application.`,
+  text: `For web development, Suhail builds with HTML, CSS, and modern JavaScript. He applied these skills during his Web Development Internship at Cognifyz Technologies and in building his Student Login Dashboard.`,
   action: { type: 'navigate', target: '#skills' },
 });
 
 const cloudSkillsResponse = (): AvatarResponse => ({
-  text: `Suhail has practical cloud computing knowledge on AWS, including EC2 instance deployment, snapshot management, and cloud storage services. He also completed a comprehensive 60-hour AWS Cloud Computing Training with Advantage Pro in 2025 and holds an IBM Introduction to Cloud certification.`,
+  text: `Suhail has practical cloud experience with AWS, including EC2 instances, storage services, and snapshot management. He completed 60 hours of AWS Cloud Computing training with Advantage Pro and holds an IBM Cloud certification.`,
   action: { type: 'navigate', target: '#skills' },
 });
 
 const allProjectsResponse = (): AvatarResponse => ({
-  text: `Suhail has built three major portfolio projects: 1) The Student Login & Dashboard Web Application in JavaScript; 2) An automated Expense Tracker Application in Python; and 3) Netflix Stock Data Analysis built with IBM Cognos BI. Would you like me to explain any of these in detail?`,
+  text: `Suhail has three featured projects: a Student Login and Dashboard Web Application in JavaScript, an automated Expense Tracker in Python, and a Netflix Stock Data Analysis built using IBM Cognos BI. Which one would you like to hear more about?`,
   action: { type: 'navigate', target: '#projects' },
 });
 
 const studentLoginProjectResponse = (): AvatarResponse => {
   const p = projects.find((item) => item.slug === 'student-login-dashboard') || projects[0];
   return {
-    text: `The Student Login & Dashboard Web Application is a secure authentication and user dashboard built with HTML, CSS, and JavaScript. It features robust input validation to prevent common authentication vulnerabilities, paired with an intuitive, responsive student dashboard interface.`,
+    text: `The Student Login and Dashboard is a secure authentication system built with HTML, CSS, and JavaScript. It features input validation to protect user credentials, paired with a clean, responsive student dashboard.`,
     action: { type: 'navigate', target: `/projects/${p.slug}` },
   };
 };
@@ -90,7 +89,7 @@ const studentLoginProjectResponse = (): AvatarResponse => {
 const expenseTrackerProjectResponse = (): AvatarResponse => {
   const p = projects.find((item) => item.slug === 'expense-tracker') || projects[1];
   return {
-    text: `The Expense Tracker Application is a Python application engineered to automatically track, parse, and categorize daily personal expenses. It generates detailed financial summary reports to enable effective personal budget monitoring.`,
+    text: `The Expense Tracker is an automated Python application that categorizes daily expenses and produces financial summary reports to help track personal budgets.`,
     action: { type: 'navigate', target: `/projects/${p.slug}` },
   };
 };
@@ -98,79 +97,115 @@ const expenseTrackerProjectResponse = (): AvatarResponse => {
 const netflixProjectResponse = (): AvatarResponse => {
   const p = projects.find((item) => item.slug === 'netflix-stock-analysis') || projects[2];
   return {
-    text: `The Netflix Stock Data Analysis project uses IBM Cognos BI to transform raw financial stock records into interactive analytical dashboards and executive reports, extracting market trend insights through structured data grouping and filtering.`,
+    text: `The Netflix Stock Data Analysis project uses IBM Cognos BI to transform raw market data into interactive analytical dashboards and reports, uncovering financial trends through structured filtering.`,
     action: { type: 'navigate', target: `/projects/${p.slug}` },
   };
 };
 
 const allInternshipsResponse = (): AvatarResponse => ({
-  text: `Suhail has completed two industry internships: 1) Web Development Intern at Cognifyz Technologies, where he developed responsive front-end features using HTML, CSS, and JavaScript; and 2) Python for Data Science Intern at Codebind Technologies, where he gained hands-on experience in data workflows and analysis.`,
+  text: `Suhail has completed two internships: a Web Development internship at Cognifyz Technologies, where he built front-end features, and a Python for Data Science internship at Codebind Technologies.`,
   action: { type: 'navigate', target: '#internship' },
 });
 
 const cognifyzInternshipResponse = (): AvatarResponse => ({
-  text: `During his Web Development Internship at Cognifyz Technologies, Suhail assisted in developing front-end web features using HTML, CSS, and JavaScript, following modern software engineering workflows.`,
+  text: `During his Web Development internship at Cognifyz Technologies, Suhail assisted in building front-end web features with HTML, CSS, and JavaScript, following modern industry workflows.`,
   action: { type: 'navigate', target: '#internship' },
 });
 
 const codebindInternshipResponse = (): AvatarResponse => ({
-  text: `At Codebind Technologies, Suhail completed an intensive Python for Data Science internship, where he mastered data handling workflows, analytical programming, and fundamental data science techniques using Python.`,
+  text: `At Codebind Technologies, Suhail completed an intensive Python for Data Science internship, where he gained hands-on experience handling data workflows and analytical programming.`,
   action: { type: 'navigate', target: '#internship' },
 });
 
 const allCertificatesResponse = (): AvatarResponse => ({
-  text: `Suhail holds 9 verified certifications across AI, Cloud, and Software Development. Notable ones include: AWS Cloud Computing Training (60 Hours) with Advantage Pro, NPTEL Mobile Virtual Reality & AI, IBM Java Certificate, Infosys Springboard AI & Python, and IBM Introduction to Cloud. You can view all certificates in the gallery!`,
+  text: `Suhail holds nine verified certifications, including AWS Cloud Computing training from Advantage Pro, NPTEL Mobile Virtual Reality and AI, IBM Java, and AI and Python certifications from Infosys Springboard.`,
   action: { type: 'navigate', target: '#certificates' },
 });
 
 const contactResponse = (): AvatarResponse => ({
-  text: `You can reach Suhail directly via email at ${profile.email}, by phone at +91 ${profile.phone}, or connect on LinkedIn at linkedin.com/in/suhailkhan61. He is based in Chennai, India.`,
+  text: `You can reach Suhail by email at ${profile.email}, by phone at +91 ${profile.phone}, or connect with him on LinkedIn. He is based in Chennai, India.`,
   action: { type: 'navigate', target: '#contact' },
 });
 
 const locationResponse = (): AvatarResponse => ({
-  text: `Suhail is based in Chennai, Tamil Nadu, India. He is open to on-site roles in Chennai as well as relocation and remote opportunities.`,
+  text: `Suhail is based in Chennai, Tamil Nadu, India. He is open to on-site opportunities in Chennai, as well as relocation and remote roles.`,
   action: { type: 'navigate', target: '#contact' },
 });
 
 const downloadResumeResponse = (): AvatarResponse => ({
-  text: `Downloading Suhail Khan's verified resume right now. You can also view all project details, skills, and certifications right here on this portfolio.`,
+  text: `Sure thing! Downloading Suhail's official resume for you right now.`,
   action: {
     type: 'download',
     target: `${BASE_URL}resume/Suhail_Khan_Resume.pdf`,
   },
 });
 
-/* =========================================================================
-   STRICT OUT-OF-SCOPE DECLINATION
-   (Will NOT answer questions outside Suhail's resume)
-   ========================================================================= */
+const whyHireResponse = (): AvatarResponse => ({
+  text: `Suhail brings a strong foundation in Computer Science specializing in Data Science and AI, combined with real hands-on experience from two internships at Cognifyz and Codebind. With 9 industry certifications, a 7.67 CGPA, and verified projects in Python, machine learning, and web development, he is proactive, technically sound, and eager to contribute as a Graduate Engineering Trainee!`,
+  action: { type: 'navigate', target: '#about' },
+});
 
-const outOfScopeResponse = (): AvatarResponse => ({
-  text: `I am Suhail's dedicated AI guide. I only answer questions directly related to Suhail Khan's resume, skills, projects, education, internships, and career background. Please feel free to ask me anything about his qualifications or portfolio!`,
+const thankYouResponse = (): AvatarResponse => ({
+  text: `You're very welcome! Please feel free to ask if you'd like to explore more about Suhail's projects, technical skills, or resume details.`,
+});
+
+const goodbyeResponse = (): AvatarResponse => ({
+  text: `Goodbye! Thank you for visiting Suhail's portfolio. Have a wonderful day ahead!`,
 });
 
 /* =========================================================================
-   INTENT PARSER & DISPATCHER
+   STRICT OUT-OF-SCOPE GUARDRAIL
+   (Politely declines any non-resume question)
+   ========================================================================= */
+
+const outOfScopeResponse = (): AvatarResponse => ({
+  text: `Sorry, I can't answer that! I'm Suhail's personal AI guide, and I can only answer questions about Suhail Khan, his resume, projects, skills, and background. Feel free to ask me anything about Suhail!`,
+});
+
+/* =========================================================================
+   INTENT MATCHER
    ========================================================================= */
 
 export function getAvatarResponse(rawQuery: string): AvatarResponse {
   const q = rawQuery.trim().toLowerCase();
 
-  // 1. Empty or very short queries
+  // 1. Empty query
   if (!q) return greetingResponse();
 
   // 2. Greetings
-  if (/^(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|yo)\b/.test(q) && q.length < 25) {
+  if (/^(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|yo|hi there|hello there)\b/.test(q) && q.length < 25) {
     return greetingResponse();
   }
 
-  // 3. Resume Download
+  // 3. Courtesy (thanks / bye)
+  if (/\b(thank you|thanks|thx|appreciate it)\b/.test(q)) {
+    return thankYouResponse();
+  }
+  if (/^(bye|goodbye|see ya|cya|farewell)\b/.test(q)) {
+    return goodbyeResponse();
+  }
+
+  // 4. Strict filter for general non-resume requests:
+  // e.g. "write python code", "what is python", "tell me a joke", "who is elon musk", "weather"
+  const isCodeOrTaskRequest = /(write|code|create|generate|implement|solve|debug|build me|give me|program).*(code|script|algorithm|program|function|class|query|app|website|game|solution)/i.test(q);
+  const isGeneralDef = /^(what is|explain|define|how does|how to use|how do i)\s+(python|java|aws|cloud|machine learning|c\+\+|javascript|html|css|data science)\b/i.test(q);
+  const isTriviaOrUnrelated = /\b(weather|president|prime minister|capital of|joke|poem|story|song|movie|game|sports|cricket|football|math|calculate|translate|news|elon musk|chatgpt|openai)\b/i.test(q);
+
+  if (isCodeOrTaskRequest || isGeneralDef || isTriviaOrUnrelated) {
+    return outOfScopeResponse();
+  }
+
+  // 5. Resume download
   if (/(download|get|give me|view|pdf|copy of).*(resume|cv)\b/.test(q) || /^(resume|cv)\b/.test(q)) {
     return downloadResumeResponse();
   }
 
-  // 4. Contact & Personal Info
+  // 6. Why hire Suhail / strengths / suitability
+  if (/(why (should (we|i) )?hire|strengths|unique|why choose|why suhail)\b/.test(q)) {
+    return whyHireResponse();
+  }
+
+  // 7. Contact & Location
   if (/(contact|reach|email|phone|call|message|touch with|connect with)\b/.test(q)) {
     return contactResponse();
   }
@@ -181,12 +216,12 @@ export function getAvatarResponse(rawQuery: string): AvatarResponse {
     return contactResponse();
   }
 
-  // 5. Job / Hire / Career Goal / Availability
+  // 8. Job, Hiring, Role, Availability
   if (/(hire|job|role|position|get|graduate engineering trainee|seeking|available|fresher|work with|opportunity)\b/.test(q)) {
     return careerGoalResponse();
   }
 
-  // 6. Education / Academics / College / CGPA / Grades
+  // 9. Education, College, CGPA
   if (/(cgpa|gpa|marks|percentage|score|grade)\b/.test(q)) {
     return cgpaResponse();
   }
@@ -197,7 +232,7 @@ export function getAvatarResponse(rawQuery: string): AvatarResponse {
     return educationResponse();
   }
 
-  // 7. Specific Projects
+  // 10. Specific Projects
   if (/(student login|dashboard web|login app|authentication project)\b/.test(q)) {
     return studentLoginProjectResponse();
   }
@@ -211,7 +246,7 @@ export function getAvatarResponse(rawQuery: string): AvatarResponse {
     return allProjectsResponse();
   }
 
-  // 8. Specific Internships
+  // 11. Internships
   if (/(cognifyz|web development intern)\b/.test(q)) {
     return cognifyzInternshipResponse();
   }
@@ -222,7 +257,7 @@ export function getAvatarResponse(rawQuery: string): AvatarResponse {
     return allInternshipsResponse();
   }
 
-  // 9. Specific Skills
+  // 12. Specific Skills (Asking about Suhail's proficiency)
   if (/(python)\b/.test(q)) {
     return pythonSkillsResponse();
   }
@@ -242,18 +277,18 @@ export function getAvatarResponse(rawQuery: string): AvatarResponse {
     return allSkillsResponse();
   }
 
-  // 10. Certifications
+  // 13. Certifications
   if (/(certif|credential|nptel|infosys|advantage pro|ibm)\b/.test(q)) {
     return allCertificatesResponse();
   }
 
-  // 11. General Questions about Suhail
-  if (/(who is|tell me about|about|introduce|bio|summary|background|strengths)\b.*(suhail|him|candidate|developer|engineer|yourself|you)?/.test(q) ||
+  // 14. General Questions about Suhail
+  if (/(who is|tell me about|about|introduce|bio|summary|background)\b.*(suhail|him|candidate|developer|engineer|yourself|you)?/.test(q) ||
       /(suhail khan|suhail)\b/.test(q)) {
     return aboutResponse();
   }
 
-  // 12. Direct section navigation queries
+  // 15. Direct section navigation requests
   if (/(show|open|go to).*(project)/.test(q)) return allProjectsResponse();
   if (/(show|open|go to).*(skill)/.test(q)) return allSkillsResponse();
   if (/(show|open|go to).*(certif)/.test(q)) return allCertificatesResponse();
@@ -261,12 +296,14 @@ export function getAvatarResponse(rawQuery: string): AvatarResponse {
   if (/(show|open|go to).*(education|college)/.test(q)) return educationResponse();
   if (/(show|open|go to).*(contact)/.test(q)) return contactResponse();
 
-  // 13. STRICT GUARD: If the question is outside Suhail's resume, decline politely!
+  // 16. STRICT OUT-OF-SCOPE REJECTION:
+  // Any question outside Suhail's resume triggers "Sorry, I can't answer that!"
   return outOfScopeResponse();
 }
 
 export const quickPrompts = [
   'Tell me about Suhail',
+  'Why hire Suhail?',
   'What is his education & CGPA?',
   'What are his core skills?',
   'Explain his projects',

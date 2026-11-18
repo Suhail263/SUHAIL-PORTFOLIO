@@ -11,6 +11,30 @@ export interface AvatarVoiceState {
 }
 
 /**
+ * Cleans text for speech synthesis so acronyms, punctuation, and technical terms
+ * are spoken with natural human pronunciation rather than literal spelling.
+ */
+function cleanTextForSpeech(text: string): string {
+  return text
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/[#*_`~]/g, '')
+    .replace(/\bB\.?Tech\b/gi, 'B Tech')
+    .replace(/\bCGPA:?\s*([0-9.]+)/gi, 'C G P A of $1')
+    .replace(/\bCGPA\b/gi, 'C G P A')
+    .replace(/\bAI\b/g, 'A I')
+    .replace(/\bML\b/g, 'Machine Learning')
+    .replace(/\bAWS\b/g, 'A W S')
+    .replace(/\bEC2\b/g, 'E C 2')
+    .replace(/\bBI\b/g, 'B I')
+    .replace(/\bNPTEL\b/gi, 'N P T E L')
+    .replace(/\bGET\b/g, 'G E T')
+    .replace(/\bCSE\b/g, 'C S E')
+    .replace(/&/g, ' and ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
  * Intelligent neural voice selector designed to find the warmest,
  * most natural, human-like voice available on the user's platform
  * (matching ChatGPT-style natural conversational quality).
@@ -145,11 +169,12 @@ export function useAvatarVoice(): AvatarVoiceState {
       window.speechSynthesis.cancel();
       clearKeepAlive();
 
-      const utterance = new SpeechSynthesisUtterance(text);
+      const spokenText = cleanTextForSpeech(text);
+      const utterance = new SpeechSynthesisUtterance(spokenText);
 
-      // Human-like acoustics (measured, warm, calm conversational pacing)
-      utterance.rate = 0.98;
-      utterance.pitch = 0.98;
+      // Human-like acoustics (measured, warm, natural conversational clarity)
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
       utterance.volume = 1.0;
 
       // Ensure voices are fetched
