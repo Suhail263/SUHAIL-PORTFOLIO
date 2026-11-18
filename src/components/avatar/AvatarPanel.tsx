@@ -16,7 +16,7 @@ interface HistoryEntry {
   text: string;
 }
 
-const GREETING = `Hi, I'm here to introduce ${profile.name.split(' ')[0]}. Ask me anything, or tap a suggestion below.`;
+const GREETING = `Hello! I'm Suhail's AI guide. I'm here exclusively to answer questions about Suhail Khan, his resume, projects, skills, education, and career experience. How can I help you today?`;
 
 export function AvatarPanel() {
   const [expanded, setExpanded] = useState(false);
