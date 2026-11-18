@@ -167,10 +167,11 @@ function SkillsBackground() {
       {/* Green */}
 
       <motion.div
-        className="absolute -left-52 top-[5%] w-[520px] h-[520px] rounded-full blur-[150px]"
+        className="absolute -left-52 top-[5%] w-[520px] h-[520px] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(34,197,94,0.12), transparent 70%)",
+            "radial-gradient(circle, rgba(34,197,94,0.14) 0%, rgba(34,197,94,0.04) 40%, transparent 70%)",
+          willChange: "transform",
         }}
         animate={{
           x: [0, 70, 0],
@@ -187,10 +188,11 @@ function SkillsBackground() {
       {/* Purple */}
 
       <motion.div
-        className="absolute right-[-180px] top-[18%] w-[560px] h-[560px] rounded-full blur-[160px]"
+        className="absolute right-[-180px] top-[18%] w-[560px] h-[560px] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(168,85,247,0.12), transparent 70%)",
+            "radial-gradient(circle, rgba(168,85,247,0.14) 0%, rgba(168,85,247,0.04) 40%, transparent 70%)",
+          willChange: "transform",
         }}
         animate={{
           x: [0, -80, 0],
@@ -207,10 +209,11 @@ function SkillsBackground() {
       {/* Orange */}
 
       <motion.div
-        className="absolute left-[35%] bottom-[-240px] w-[500px] h-[500px] rounded-full blur-[160px]"
+        className="absolute left-[35%] bottom-[-240px] w-[500px] h-[500px] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(249,115,22,0.09), transparent 70%)",
+            "radial-gradient(circle, rgba(249,115,22,0.11) 0%, rgba(249,115,22,0.03) 40%, transparent 70%)",
+          willChange: "transform",
         }}
         animate={{
           x: [-60, 60, -60],
@@ -226,10 +229,11 @@ function SkillsBackground() {
       {/* Blue */}
 
       <motion.div
-        className="absolute right-[25%] bottom-[10%] w-[360px] h-[360px] rounded-full blur-[130px]"
+        className="absolute right-[25%] bottom-[10%] w-[360px] h-[360px] rounded-full"
         style={{
           background:
-            "radial-gradient(circle, rgba(59,130,246,0.07), transparent 70%)",
+            "radial-gradient(circle, rgba(59,130,246,0.10) 0%, rgba(59,130,246,0.02) 40%, transparent 70%)",
+          willChange: "transform",
         }}
         animate={{
           scale: [1, 1.2, 1],
@@ -352,7 +356,6 @@ function SkillCard({
           border
           border-white/[0.08]
           bg-[#0b0c11]/95
-          backdrop-blur-xl
           p-6
         "
         whileHover={{
@@ -368,9 +371,9 @@ function SkillCard({
         {/* Mouse-like ambient glow */}
 
         <div
-          className="absolute -right-20 -top-20 w-48 h-48 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute -right-20 -top-20 w-48 h-48 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
-            background: skill.glow,
+            background: `radial-gradient(circle, ${skill.glow} 0%, transparent 70%)`,
           }}
         />
 

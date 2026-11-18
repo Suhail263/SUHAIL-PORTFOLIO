@@ -65,9 +65,9 @@ export function Education() {
           right: '-140px',
           top: '-100px',
           borderRadius: '50%',
+          willChange: 'transform',
           background:
             'radial-gradient(circle, rgba(56,189,248,0.14) 0%, rgba(56,189,248,0.05) 35%, transparent 70%)',
-          filter: 'blur(25px)',
         }}
         animate={{
           x: [0, -25, 0],
@@ -89,9 +89,9 @@ export function Education() {
           left: '-180px',
           bottom: '-120px',
           borderRadius: '50%',
+          willChange: 'transform',
           background:
             'radial-gradient(circle, rgba(167,139,250,0.12) 0%, rgba(167,139,250,0.04) 38%, transparent 72%)',
-          filter: 'blur(30px)',
         }}
         animate={{
           x: [0, 30, 0],
@@ -270,11 +270,11 @@ export function Education() {
                         w-48
                         h-48
                         rounded-full
-                        blur-[55px]
                       "
                       style={{
-                        background: theme.accent,
-                        opacity: 0.08,
+                        background: `radial-gradient(circle, ${theme.accent} 0%, transparent 70%)`,
+                        opacity: 0.12,
+                        willChange: 'transform',
                       }}
                       animate={{
                         scale: [1, 1.15, 1],

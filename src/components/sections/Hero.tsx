@@ -25,6 +25,7 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { Button } from '@/components/ui/Button';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { profile } from '@/data/resume';
+import { scrollToTarget } from '@/hooks/useLenis';
 
 const BASE_URL = import.meta.env.BASE_URL;
 
@@ -79,10 +80,7 @@ export function Hero() {
   const typed = useTypewriter(ROLE_WORDS);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    scrollToTarget('#' + id);
   };
 
   /* =========================================================
@@ -239,15 +237,15 @@ export function Hero() {
           h-[650px]
           w-[650px]
           rounded-full
-          blur-[120px]
         "
         style={{
           right: '-8%',
           top: '18%',
           x: glowX,
           y: glowY,
+          willChange: 'transform',
           background:
-            'radial-gradient(circle, rgba(91,108,255,0.18), rgba(91,108,255,0.04) 42%, transparent 70%)',
+            'radial-gradient(circle, rgba(91,108,255,0.18) 0%, rgba(91,108,255,0.06) 35%, rgba(91,108,255,0.01) 55%, transparent 70%)',
         }}
         animate={{
           opacity: [0.45, 0.75, 0.45],
@@ -274,9 +272,12 @@ export function Hero() {
           h-[300px]
           w-[300px]
           rounded-full
-          bg-[#5b6cff]/[0.045]
-          blur-[100px]
         "
+        style={{
+          willChange: 'transform',
+          background:
+            'radial-gradient(circle, rgba(91,108,255,0.10) 0%, rgba(91,108,255,0.03) 40%, transparent 70%)',
+        }}
         animate={{
           x: [0, 60, 0],
           y: [0, 30, 0],
@@ -538,17 +539,15 @@ export function Hero() {
             <motion.h1
               initial={{
                 opacity: 0,
-                y: 55,
-                filter: 'blur(10px)',
+                y: 40,
               }}
               animate={{
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
               }}
               transition={{
-                duration: 1.1,
-                delay: 0.55,
+                duration: 0.9,
+                delay: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               }}
               className="
@@ -940,9 +939,9 @@ export function Hero() {
               style={{
                 x: glowX,
                 y: glowY,
+                willChange: 'transform',
                 background:
-                  'radial-gradient(circle, rgba(91,108,255,0.18) 0%, rgba(91,108,255,0.07) 35%, transparent 70%)',
-                filter: 'blur(80px)',
+                  'radial-gradient(circle, rgba(91,108,255,0.18) 0%, rgba(91,108,255,0.06) 35%, rgba(91,108,255,0.01) 55%, transparent 70%)',
               }}
               animate={{
                 scale: [0.96, 1.05, 0.96],
@@ -1004,9 +1003,11 @@ export function Hero() {
                   h-[430px]
                   w-[300px]
                   rounded-full
-                  bg-[#5b6cff]/[0.08]
-                  blur-[100px]
                 "
+                style={{
+                  background:
+                    'radial-gradient(circle, rgba(91,108,255,0.10) 0%, rgba(91,108,255,0.03) 45%, transparent 70%)',
+                }}
               />
 
               {/* PHOTO IDENTITY */}

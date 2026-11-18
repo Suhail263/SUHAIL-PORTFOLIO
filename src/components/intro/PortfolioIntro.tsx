@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface PortfolioIntroProps {
@@ -8,28 +8,57 @@ interface PortfolioIntroProps {
 }
 
 export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
-  const [phase, setPhase] = useState<"intro" | "exit">("intro");
+  const [phase, setPhase] = useState<"intro" | "exit">(() => {
+    if (typeof window !== "undefined" && window.sessionStorage.getItem("portfolio_intro_seen")) {
+      return "exit";
+    }
+    return "intro";
+  });
+
+  const handleSkip = useCallback(() => {
+    try {
+      window.sessionStorage.setItem("portfolio_intro_seen", "true");
+    } catch {}
+    setPhase("exit");
+    onComplete?.();
+  }, [onComplete]);
 
   useEffect(() => {
+    if (phase === "exit") return;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+        handleSkip();
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+
     const exitTimer = window.setTimeout(() => {
+      try {
+        window.sessionStorage.setItem("portfolio_intro_seen", "true");
+      } catch {}
       setPhase("exit");
-    }, 2800);
+    }, 2200);
 
     const completeTimer = window.setTimeout(() => {
       onComplete?.();
-    }, 3650);
+    }, 2500);
 
     return () => {
+      window.removeEventListener("keydown", handleKey);
       window.clearTimeout(exitTimer);
       window.clearTimeout(completeTimer);
     };
-  }, [onComplete]);
+  }, [phase, onComplete, handleSkip]);
+
+  if (phase === "exit") return null;
 
   return (
     <AnimatePresence>
       {phase === "intro" && (
         <motion.div
-          className="fixed inset-0 z-[99999] overflow-hidden bg-[#030405] text-white"
+          className="fixed inset-0 z-[99999] overflow-hidden bg-[#030405] text-white cursor-pointer select-none"
+          onClick={handleSkip}
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
@@ -39,6 +68,16 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
             },
           }}
         >
+          {/* Skip button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSkip();
+            }}
+            className="absolute top-6 right-6 z-[120] px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider uppercase border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-white/70 hover:text-white transition-all backdrop-blur-sm"
+          >
+            Skip [Esc]
+          </button>
           {/* =========================================================
               BACKGROUND BASE
           ========================================================= */}
@@ -53,8 +92,7 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
             className="absolute left-1/2 top-1/2 h-[55vw] w-[55vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               background:
-                "radial-gradient(circle, rgba(86,100,255,0.12) 0%, rgba(86,100,255,0.045) 28%, transparent 68%)",
-              filter: "blur(45px)",
+                "radial-gradient(circle, rgba(86,100,255,0.14) 0%, rgba(86,100,255,0.04) 35%, transparent 68%)",
             }}
             initial={{
               opacity: 0,
@@ -78,8 +116,7 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
             className="absolute left-[18%] top-[22%] h-[28rem] w-[28rem] rounded-full"
             style={{
               background:
-                "radial-gradient(circle, rgba(255,255,255,0.035), transparent 68%)",
-              filter: "blur(50px)",
+                "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 68%)",
             }}
             animate={{
               x: [0, 80, 20, 0],
@@ -182,8 +219,7 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
             className="absolute left-0 top-0 h-full w-[18%]"
             style={{
               background:
-                "linear-gradient(90deg, transparent, rgba(255,255,255,0.025), transparent)",
-              filter: "blur(12px)",
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.035), transparent)",
             }}
             animate={{
               x: ["-30vw", "130vw"],
@@ -340,13 +376,11 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
                   y: "-70vh",
                   opacity: 0,
                   scale: 0.92,
-                  filter: "blur(10px)",
                 }}
                 animate={{
                   y: "-0.10em",
                   opacity: 1,
                   scale: 1,
-                  filter: "blur(0px)",
                 }}
                 transition={{
                   duration: 1.55,
@@ -401,13 +435,11 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
                   y: "70vh",
                   opacity: 0,
                   scale: 0.92,
-                  filter: "blur(10px)",
                 }}
                 animate={{
                   y: "0.10em",
                   opacity: 1,
                   scale: 1,
-                  filter: "blur(0px)",
                 }}
                 transition={{
                   duration: 1.55,

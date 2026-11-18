@@ -65,9 +65,9 @@ export function Internship() {
           right: '-120px',
           top: '5%',
           borderRadius: '50%',
+          willChange: 'transform',
           background:
             'radial-gradient(circle, rgba(108,123,255,0.14) 0%, rgba(108,123,255,0.05) 35%, transparent 70%)',
-          filter: 'blur(20px)',
         }}
         animate={{
           x: [0, -25, 0],
@@ -89,9 +89,9 @@ export function Internship() {
           left: '-180px',
           bottom: '0%',
           borderRadius: '50%',
+          willChange: 'transform',
           background:
             'radial-gradient(circle, rgba(168,85,247,0.11) 0%, rgba(168,85,247,0.04) 38%, transparent 72%)',
-          filter: 'blur(25px)',
         }}
         animate={{
           x: [0, 30, 0],
@@ -225,12 +225,12 @@ export function Internship() {
                         right: '-100px',
                         top: '-100px',
                         borderRadius: '50%',
+                        willChange: 'transform',
                         background: `radial-gradient(
                           circle,
                           ${theme.glow} 0%,
                           transparent 70%
                         )`,
-                        filter: 'blur(18px)',
                       }}
                       animate={{
                         scale: [1, 1.12, 1],

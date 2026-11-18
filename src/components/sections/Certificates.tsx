@@ -292,9 +292,10 @@ function Aurora({ theme }: { theme: Theme }) {
   return (
     <>
       <motion.div
-        className="absolute w-[520px] h-[520px] rounded-full blur-[120px] pointer-events-none"
+        className="absolute w-[520px] h-[520px] rounded-full pointer-events-none"
         style={{
-          background: theme.glow,
+          background: `radial-gradient(circle, ${theme.glow} 0%, transparent 70%)`,
+          willChange: "transform",
         }}
         animate={{
           x: [-120, 80, -40, -120],
@@ -310,13 +311,15 @@ function Aurora({ theme }: { theme: Theme }) {
       />
 
       <motion.div
-        className="absolute w-[380px] h-[380px] rounded-full blur-[110px] pointer-events-none"
+        className="absolute w-[380px] h-[380px] rounded-full pointer-events-none"
         style={{
           background: `radial-gradient(
             circle,
-            ${theme.secondary}25,
+            ${theme.secondary}35 0%,
+            ${theme.secondary}10 40%,
             transparent 68%
           )`,
+          willChange: "transform",
         }}
         animate={{
           x: [140, -60, 100, 140],
@@ -894,7 +897,6 @@ function MaterializationScene({
             ${theme.secondary}70,
             transparent 72%
           )`,
-          filter: "blur(2px)",
           boxShadow: `0 0 80px ${theme.soft}`,
         }}
         initial={{
@@ -1176,17 +1178,17 @@ function MaterializationScene({
           top-[48%] text-center"
           initial={{
             opacity: 0,
-            filter: "blur(8px)",
+            y: 8,
           }}
           animate={{
             opacity:
               stage === "assemble"
                 ? 1
                 : 0,
-            filter:
+            y:
               stage === "assemble"
-                ? "blur(0px)"
-                : "blur(8px)",
+                ? 0
+                : 8,
           }}
           transition={{
             duration: 0.8,
@@ -2109,10 +2111,11 @@ export function Certificates() {
         <motion.div
           className="absolute -right-48 -top-48
           w-[650px] h-[650px]
-          rounded-full blur-[160px]"
+          rounded-full"
           style={{
             background:
-              "radial-gradient(circle, rgba(99,102,241,.10), transparent 70%)",
+              "radial-gradient(circle, rgba(99,102,241,.12) 0%, rgba(99,102,241,.03) 40%, transparent 70%)",
+            willChange: "transform",
           }}
           animate={{
             x: [0, 50, 0],
@@ -2130,10 +2133,11 @@ export function Certificates() {
           className="absolute left-[-220px]
           bottom-[-220px]
           w-[600px] h-[600px]
-          rounded-full blur-[150px]"
+          rounded-full"
           style={{
             background:
-              "radial-gradient(circle, rgba(168,85,247,.07), transparent 70%)",
+              "radial-gradient(circle, rgba(168,85,247,.09) 0%, rgba(168,85,247,.02) 40%, transparent 70%)",
+            willChange: "transform",
           }}
           animate={{
             x: [0, 30, 0],
@@ -2234,12 +2238,11 @@ export function Certificates() {
                       -top-28 -right-24
                       w-64 h-64
                       rounded-full
-                      blur-[70px]
                       pointer-events-none
                       opacity-0
                       group-hover:opacity-100"
                       style={{
-                        background: theme.glow,
+                        background: `radial-gradient(circle, ${theme.glow} 0%, transparent 70%)`,
                       }}
                       transition={{
                         duration: 0.7,

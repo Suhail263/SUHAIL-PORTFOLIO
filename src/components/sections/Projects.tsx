@@ -346,7 +346,6 @@ export function Projects() {
                           w-40
                           h-40
                           rounded-full
-                          blur-[65px]
                           pointer-events-none
                           opacity-40
                           group-hover:opacity-75
@@ -354,7 +353,7 @@ export function Projects() {
                           duration-500
                         "
                         style={{
-                          background: accent.color,
+                          background: `radial-gradient(circle, ${accent.color} 0%, transparent 70%)`,
                         }}
                       />
 

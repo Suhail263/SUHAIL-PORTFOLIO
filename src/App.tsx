@@ -2,10 +2,9 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { PortfolioIntro } from '@/components/intro/PortfolioIntro';
-import { PageLoader } from '@/components/layout/PageLoader';
 import { Navbar } from '@/components/layout/Navbar';
 import { AvatarPanel } from '@/components/avatar/AvatarPanel';
-import { useLenis } from '@/hooks/useLenis';
+import { useLenis, scrollToTarget } from '@/hooks/useLenis';
 
 // Route-level code splitting:
 // Home pulls in Three.js through the hero background,
@@ -39,7 +38,7 @@ function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    scrollToTarget(0, { immediate: true });
   }, [pathname]);
 
   return null;
@@ -65,9 +64,6 @@ function App() {
       >
         Skip to content
       </a>
-
-      {/* Existing page loader */}
-      <PageLoader />
 
       {/* Main navigation */}
       <Navbar />

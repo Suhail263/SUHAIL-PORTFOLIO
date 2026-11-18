@@ -24,16 +24,13 @@ export function Waveform({ active }: WaveformProps) {
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
 
-    const draw = () => {
+    const renderBars = () => {
       ctx.clearRect(0, 0, width, height);
       const barWidth = width / BAR_COUNT;
 
       for (let i = 0; i < BAR_COUNT; i++) {
-        const target = active ? 0.2 + Math.random() * 0.8 : 0.12;
-        barsRef.current[i] += (target - barsRef.current[i]) * 0.25;
         const h = barsRef.current[i] * height;
-
-        ctx.fillStyle = 'var(--color-accent)'.startsWith('var') ? '#5b6cff' : '#5b6cff';
+        ctx.fillStyle = '#5b6cff';
         ctx.globalAlpha = active ? 0.9 : 0.35;
         const x = i * barWidth + barWidth * 0.25;
         const w = barWidth * 0.5;
@@ -44,12 +41,29 @@ export function Waveform({ active }: WaveformProps) {
         ctx.roundRect(x, y, w, h, radius);
         ctx.fill();
       }
+    };
 
+    if (!active) {
+      for (let i = 0; i < BAR_COUNT; i++) {
+        barsRef.current[i] = 0.15;
+      }
+      renderBars();
+      return;
+    }
+
+    const draw = () => {
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const target = 0.2 + Math.random() * 0.8;
+        barsRef.current[i] += (target - barsRef.current[i]) * 0.25;
+      }
+      renderBars();
       frameRef.current = requestAnimationFrame(draw);
     };
 
     frameRef.current = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(frameRef.current);
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
   }, [active]);
 
   return <canvas ref={canvasRef} className="w-full h-8" aria-hidden="true" />;

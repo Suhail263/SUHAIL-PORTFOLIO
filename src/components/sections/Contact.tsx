@@ -310,11 +310,11 @@ export function Contact() {
           h-[600px]
           w-[600px]
           rounded-full
-          blur-[150px]
         "
         style={{
           background:
-            "radial-gradient(circle, rgba(91,108,255,0.18), rgba(91,108,255,0.05) 42%, transparent 72%)",
+            "radial-gradient(circle, rgba(91,108,255,0.18) 0%, rgba(91,108,255,0.05) 40%, transparent 72%)",
+          willChange: "transform",
         }}
         animate={{
           x: [0, 25, 0],
@@ -338,11 +338,11 @@ export function Contact() {
           h-[520px]
           w-[520px]
           rounded-full
-          blur-[150px]
         "
         style={{
           background:
-            "radial-gradient(circle, rgba(124,58,237,0.12), rgba(124,58,237,0.035) 42%, transparent 72%)",
+            "radial-gradient(circle, rgba(124,58,237,0.14) 0%, rgba(124,58,237,0.035) 40%, transparent 72%)",
+          willChange: "transform",
         }}
         animate={{
           x: [0, -20, 0],

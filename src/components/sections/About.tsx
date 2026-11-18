@@ -122,12 +122,10 @@ function Stat({
       initial={{
         opacity: 0,
         y: 25,
-        filter: 'blur(8px)',
       }}
       whileInView={{
         opacity: 1,
         y: 0,
-        filter: 'blur(0px)',
       }}
       viewport={{
         once: true,
@@ -424,13 +422,11 @@ export function About() {
         <motion.div
           initial={{
             opacity: 0,
-            y: 45,
-            filter: 'blur(12px)',
+            y: 35,
           }}
           whileInView={{
             opacity: 1,
             y: 0,
-            filter: 'blur(0px)',
           }}
           viewport={{
             once: true,
@@ -467,15 +463,13 @@ export function About() {
             <motion.div
               initial={{
                 opacity: 0,
-                x: -55,
-                scale: 0.96,
-                filter: 'blur(8px)',
+                x: -35,
+                scale: 0.98,
               }}
               whileInView={{
                 opacity: 1,
                 x: 0,
                 scale: 1,
-                filter: 'blur(0px)',
               }}
               whileHover={{
                 y: -5,
@@ -507,10 +501,10 @@ export function About() {
                 {/* Mission glow */}
 
                 <div
-                  className="absolute -right-16 -top-16 w-40 h-40 rounded-full blur-[65px] pointer-events-none"
+                  className="absolute -right-16 -top-16 w-40 h-40 rounded-full pointer-events-none"
                   style={{
                     background:
-                      'rgba(34,211,238,0.13)',
+                      'radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%)',
                   }}
                 />
 
@@ -554,15 +548,13 @@ export function About() {
             <motion.div
               initial={{
                 opacity: 0,
-                x: -55,
-                scale: 0.96,
-                filter: 'blur(8px)',
+                x: -35,
+                scale: 0.98,
               }}
               whileInView={{
                 opacity: 1,
                 x: 0,
                 scale: 1,
-                filter: 'blur(0px)',
               }}
               whileHover={{
                 y: -5,
@@ -595,10 +587,10 @@ export function About() {
                 {/* Vision glow */}
 
                 <div
-                  className="absolute -right-16 -top-16 w-40 h-40 rounded-full blur-[65px] pointer-events-none"
+                  className="absolute -right-16 -top-16 w-40 h-40 rounded-full pointer-events-none"
                   style={{
                     background:
-                      'rgba(236,72,153,0.14)',
+                      'radial-gradient(circle, rgba(236,72,153,0.18) 0%, transparent 70%)',
                   }}
                 />
 
@@ -679,13 +671,11 @@ export function About() {
                   key={item.year}
                   initial={{
                     opacity: 0,
-                    x: 35,
-                    filter: 'blur(7px)',
+                    x: 25,
                   }}
                   whileInView={{
                     opacity: 1,
                     x: 0,
-                    filter: 'blur(0px)',
                   }}
                   viewport={{
                     once: true,

@@ -7,6 +7,7 @@ import { Waveform } from './Waveform';
 import { Captions } from './Captions';
 import { ChatInput } from './ChatInput';
 import { useAvatarVoice } from '@/hooks/useAvatarVoice';
+import { scrollToTarget } from '@/hooks/useLenis';
 import { getAvatarResponse, quickPrompts, type AvatarAction } from '@/lib/avatarResponses';
 import { profile } from '@/data/resume';
 
@@ -56,10 +57,10 @@ export function AvatarPanel() {
         if (location.pathname !== '/') {
           navigate('/');
           window.setTimeout(() => {
-            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-          }, 150);
+            scrollToTarget('#' + id);
+          }, 100);
         } else {
-          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+          scrollToTarget('#' + id);
         }
       } else {
         navigate(action.target);
@@ -89,7 +90,10 @@ export function AvatarPanel() {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div
+      className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6"
+      style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+    >
       <AnimatePresence>
         {expanded && (
           <motion.div

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
+import { scrollToTarget } from '@/hooks/useLenis';
 import { profile } from '@/data/resume';
 
 const NAV_ITEMS = [
@@ -17,9 +18,11 @@ const NAV_ITEMS = [
   { id: 'contact', label: 'Contact' },
 ];
 
+const SECTION_IDS = NAV_ITEMS.map((n) => n.id);
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const activeId = useScrollSpy(NAV_ITEMS.map((n) => n.id));
+  const activeId = useScrollSpy(SECTION_IDS);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,11 +31,11 @@ export function Navbar() {
     if (location.pathname !== '/') {
       navigate('/');
       window.setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
+        scrollToTarget('#' + id);
+      }, 100);
       return;
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    scrollToTarget('#' + id);
   };
 
   return (

@@ -1,9 +1,10 @@
 import { profile } from '@/data/resume';
+import { scrollToTarget } from '@/hooks/useLenis';
 
 export function Footer() {
   const year = new Date().getFullYear();
 
-  const scrollTop = () => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTop = () => scrollToTarget('#home');
 
   return (
     <footer className="border-t" style={{ borderColor: 'var(--glass-border)' }}>
