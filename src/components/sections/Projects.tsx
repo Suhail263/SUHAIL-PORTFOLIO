@@ -19,7 +19,7 @@ export function Projects() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "url('/images/projects-background.png')",
+          backgroundImage: `url('${import.meta.env.BASE_URL}images/projects-background.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',

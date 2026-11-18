@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Volume2, VolumeX, Pause, Play, MessageCircle, X } from 'lucide-react';
 import { AvatarFace } from './AvatarFace';
@@ -24,6 +24,7 @@ export function AvatarPanel() {
   const [paused, setPaused] = useState(false);
   const { isSpeaking, isMuted, isSupported, currentCaption, speak, stop, toggleMute } = useAvatarVoice();
   const historyEndRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +53,14 @@ export function AvatarPanel() {
     if (action.type === 'navigate') {
       if (action.target.startsWith('#')) {
         const id = action.target.replace('#', '');
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        if (location.pathname !== '/') {
+          navigate('/');
+          window.setTimeout(() => {
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+          }, 150);
+        } else {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
       } else {
         navigate(action.target);
       }

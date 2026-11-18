@@ -267,7 +267,7 @@ export function Contact() {
       <div
         className="absolute inset-0 -z-30 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/images/contact-background.png')",
+          backgroundImage: `url('${import.meta.env.BASE_URL}images/contact-background.png')`,
         }}
         aria-hidden="true"
       />

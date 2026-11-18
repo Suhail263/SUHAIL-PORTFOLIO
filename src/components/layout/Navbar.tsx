@@ -26,8 +26,10 @@ export function Navbar() {
   const scrollTo = (id: string) => {
     setOpen(false);
     if (location.pathname !== '/') {
-      navigate(`/#${id}`);
-      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 100);
+      navigate('/');
+      window.setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
       return;
     }
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });

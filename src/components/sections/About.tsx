@@ -245,7 +245,7 @@ export function About() {
           y: backgroundY,
           scale: backgroundScale,
           backgroundImage:
-            "url('/images/about-background.png')",
+            `url('${import.meta.env.BASE_URL}images/about-background.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',

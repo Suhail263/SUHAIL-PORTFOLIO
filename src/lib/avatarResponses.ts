@@ -60,7 +60,7 @@ const internshipAnswer = (): AvatarResponse => ({
 
 const downloadResume = (): AvatarResponse => ({
   text: `Here's his resume — downloading it now.`,
-  action: { type: 'download', target: '/resume/Suhail_Khan_Resume.pdf' },
+  action: { type: 'download', target: `${import.meta.env.BASE_URL}resume/Suhail_Khan_Resume.pdf` },
 });
 
 const contactSuhail = (): AvatarResponse => ({

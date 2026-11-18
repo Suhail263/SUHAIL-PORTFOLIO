@@ -45,7 +45,7 @@ export function Education() {
               rgba(5, 5, 10, 0.70),
               rgba(5, 5, 10, 0.94)
             ),
-            url('/images/education-background.png')
+            url('${import.meta.env.BASE_URL}images/education-background.png')
           `,
           backgroundSize: 'cover',
           backgroundPosition: 'center right',

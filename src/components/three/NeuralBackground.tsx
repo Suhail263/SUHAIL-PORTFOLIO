@@ -1,8 +1,8 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const PARTICLE_COUNT = 260;
+const PARTICLE_COUNT = 240;
 const CONNECT_DISTANCE = 1.8;
 
 function NeuralPoints() {
@@ -28,9 +28,19 @@ function NeuralPoints() {
     return arr;
   }, []);
 
-  const lineGeometry = useMemo(() => new THREE.BufferGeometry(), []);
   const maxLines = PARTICLE_COUNT * 8;
   const linePositions = useMemo(() => new Float32Array(maxLines * 2 * 3), [maxLines]);
+  const lineGeometry = useMemo(() => {
+    const geom = new THREE.BufferGeometry();
+    geom.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+    return geom;
+  }, [linePositions]);
+
+  useEffect(() => {
+    return () => {
+      lineGeometry.dispose();
+    };
+  }, [lineGeometry]);
 
   useFrame(() => {
     const posAttr = pointsRef.current?.geometry.attributes.position as THREE.BufferAttribute | undefined;
@@ -72,8 +82,11 @@ function NeuralPoints() {
         }
       }
     }
-    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions.slice(0, lineIdx * 6), 3));
-    lineGeometry.attributes.position.needsUpdate = true;
+    const linePosAttr = lineGeometry.attributes.position as THREE.BufferAttribute | undefined;
+    if (linePosAttr) {
+      linePosAttr.needsUpdate = true;
+      lineGeometry.setDrawRange(0, lineIdx * 2);
+    }
   });
 
   return (

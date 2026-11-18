@@ -45,7 +45,7 @@ export function Internship() {
               rgba(8, 8, 12, 0.72) 0%,
               rgba(8, 8, 12, 0.94) 100%
             ),
-            url('/images/internship-background.png')
+            url('${import.meta.env.BASE_URL}images/internship-background.png')
           `,
           backgroundSize: 'cover',
           backgroundPosition: 'center right',

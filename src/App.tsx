@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { PortfolioIntro } from '@/components/intro/PortfolioIntro';
 import { PageLoader } from '@/components/layout/PageLoader';
@@ -35,11 +35,22 @@ function RouteFallback() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   useLenis();
 
   return (
     <>
+      <ScrollToTop />
       {/* Cinematic portfolio intro */}
       <PortfolioIntro />
 

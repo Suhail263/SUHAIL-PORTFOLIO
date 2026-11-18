@@ -1,5 +1,5 @@
 import { useRef, type MouseEvent, type ReactNode } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 interface TiltCardProps {
   children: ReactNode;
@@ -16,6 +16,7 @@ export function TiltCard({ children, className = '' }: TiltCardProps) {
   const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), springConfig);
   const glowX = useTransform(x, [0, 1], ['0%', '100%']);
   const glowY = useTransform(y, [0, 1], ['0%', '100%']);
+  const background = useMotionTemplate`radial-gradient(220px circle at ${glowX} ${glowY}, var(--color-accent-soft), transparent 70%)`;
 
   const handleMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -35,13 +36,11 @@ export function TiltCard({ children, className = '' }: TiltCardProps) {
       onMouseMove={handleMove}
       onMouseLeave={reset}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className={`glass rounded-2xl relative overflow-hidden ${className}`}
+      className={`group glass rounded-2xl relative overflow-hidden ${className}`}
     >
       <motion.div
-        className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(180px circle at ${glowX} ${glowY}, var(--color-accent-soft), transparent 70%)`,
-        }}
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background }}
       />
       {children}
     </motion.div>
