@@ -605,19 +605,7 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
         )}
       </AnimatePresence>
 
-      {/* ==============================================================
-          SKIP BUTTON (Top-Right Quick Bypass)
-      ============================================================== */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          handleSkip();
-        }}
-        className="absolute top-6 right-6 z-[60] px-3.5 py-1.5 rounded-full text-[11px] font-mono tracking-wider uppercase border border-white/15 bg-white/5 hover:bg-white/15 hover:border-white/30 text-white/70 hover:text-white transition-all backdrop-blur-md cursor-pointer"
-        aria-label="Skip intro animation"
-      >
-        Skip [Esc]
-      </button>
+
     </div>
   );
 }
