@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown, Shield, Terminal, Zap } from 'lucide-react';
+import { ChevronDown, Zap } from 'lucide-react';
 
 interface PortfolioIntroProps {
   onComplete?: () => void;
@@ -96,57 +96,8 @@ function VaultScene({
         ))}
       </div>
 
-      {/* 4. Top-Left HUD Telemetry & Rotating Radar Reticle */}
-      <div className="absolute top-8 left-8 sm:top-12 sm:left-12 flex items-start gap-4 z-10 pointer-events-none">
-        <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-[#5b6cff]/35 flex items-center justify-center bg-[#060a14]/60 backdrop-blur-sm shadow-[0_0_15px_rgba(91,108,255,0.2)]">
-          {/* Outer dashed spinning compass */}
-          <div className="absolute inset-1 rounded-full border border-dashed border-[#5b6cff]/30 animate-[spin_24s_linear_infinite]" />
-          {/* Inner counter-spinning reticle */}
-          <div className="absolute inset-2.5 rounded-full border border-[#4deeea]/40 animate-[spin_12s_linear_infinite_reverse]" />
-          {/* Center target lock dot */}
-          <motion.div
-            className="w-1.5 h-1.5 rounded-full bg-[#4deeea]"
-            animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
-            style={{ boxShadow: '0 0 8px #4deeea' }}
-          />
-          {/* Radar sweep beam */}
-          <div className="absolute top-1/2 left-1/2 w-7 h-px bg-gradient-to-r from-transparent via-[#4deeea] to-transparent -translate-y-1/2 animate-[spin_3.5s_linear_infinite]" />
-        </div>
-        <div className="font-mono text-[9px] sm:text-[10px] text-white/50 tracking-wider space-y-0.5 pt-1">
-          <div className="flex items-center gap-1.5 text-[#4deeea]">
-            <Terminal size={11} />
-            <span className="font-semibold uppercase tracking-widest">SYS_AUTH // VERIFIED</span>
-          </div>
-          <p className="text-white/70">MODULE: NEURAL_VAULT_v3.0</p>
-          <p>LOC: 13.0827° N / 80.2707° E · CHENNAI</p>
-          <p className="text-white/40">CLEARANCE: LEVEL_ALPHA // GRANTED</p>
-        </div>
-      </div>
-
-      {/* 5. Top-Right HUD Telemetry & Encryption Clearance */}
-      <div className="absolute top-8 right-8 sm:top-12 sm:right-12 text-right font-mono text-[9px] sm:text-[10px] text-white/50 tracking-wider space-y-0.5 z-10 pointer-events-none">
-        <div className="flex items-center justify-end gap-1.5 text-[#5b6cff]">
-          <Shield size={11} />
-          <span className="font-semibold uppercase tracking-widest">CORE ENCRYPTION ACTIVE</span>
-        </div>
-        <p className="text-white/70">SPECIALIZATION: AI & DATA SCIENCE</p>
-        <p>SYSTEM STATUS: ONLINE · LATENCY: 0.2ms</p>
-        <p className="text-white/40">PROTOCOL: QUANTUM_SPLIT_REVEAL</p>
-      </div>
-
-      {/* 6. Bottom Corner Metadata */}
-      <div className="absolute bottom-8 left-8 sm:bottom-10 sm:left-12 font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 z-10 pointer-events-none">
-        <p className="text-[#5b6cff] font-semibold">SUHAIL KHAN</p>
-        <p className="text-white/30 text-[8px] tracking-[0.25em] mt-0.5">AI ENGINEER · FULL STACK</p>
-      </div>
-      <div className="absolute bottom-8 right-8 sm:bottom-10 sm:right-12 font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 text-right z-10 pointer-events-none">
-        <p className="text-white/70 font-medium">RELEASE // 2026</p>
-        <p className="text-white/30 text-[8px] tracking-[0.25em] mt-0.5">PORTFOLIO v2.0</p>
-      </div>
-
       {/* ==============================================================
-          7. DEAD-CENTER AI QUANTUM REACTOR CORE & MULTI-LAYER VORTEX
+          4. DEAD-CENTER AI QUANTUM REACTOR CORE & MULTI-LAYER VORTEX
           Pure Flexbox centering guarantees absolute center of screen.
           Position is mathematically anchored to x = 50%, y = 50%.
       ============================================================== */}
@@ -219,13 +170,6 @@ function VaultScene({
               <linearGradient id="filamentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.75" />
                 <stop offset="65%" stopColor="#4deeea" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-              </linearGradient>
-
-              {/* Inner Counter Spiral Gradient */}
-              <linearGradient id="innerSpiralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ffd166" stopOpacity="0.6" />
-                <stop offset="50%" stopColor="#4deeea" stopOpacity="0.3" />
                 <stop offset="100%" stopColor="transparent" stopOpacity="0" />
               </linearGradient>
             </defs>
@@ -316,7 +260,7 @@ function VaultScene({
             {/* Glass Lens Reflection Crescent */}
             <div className="absolute -top-12 -left-12 w-32 h-32 bg-white/10 rounded-full blur-md pointer-events-none" />
 
-            {/* Bold Luminous Monogram "SK" */}
+            {/* Bold Luminous Monogram "SK" (Ready for custom logo) */}
             <motion.span
               className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight uppercase"
               style={{
@@ -354,12 +298,8 @@ function VaultScene({
 }
 
 export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
-  const [phase, setPhase] = useState<'idle' | 'cracking' | 'unsealing' | 'done'>(() => {
-    if (typeof window !== 'undefined' && window.sessionStorage.getItem('portfolio_vault_unsealed')) {
-      return 'done';
-    }
-    return 'idle';
-  });
+  // Always start at 'idle' on every page load/refresh
+  const [phase, setPhase] = useState<'idle' | 'cracking' | 'unsealing' | 'done'>('idle');
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -386,15 +326,6 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [phase]);
 
-  // Skip Immediately
-  const handleSkip = useCallback(() => {
-    try {
-      window.sessionStorage.setItem('portfolio_vault_unsealed', 'true');
-    } catch {}
-    setPhase('done');
-    onComplete?.();
-  }, [onComplete]);
-
   // Trigger crack & dual split unseal
   const handleUnseal = useCallback(() => {
     if (phase !== 'idle') return;
@@ -409,15 +340,12 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
 
     // Stage 3: Complete & cleanup
     window.setTimeout(() => {
-      try {
-        window.sessionStorage.setItem('portfolio_vault_unsealed', 'true');
-      } catch {}
       setPhase('done');
       onComplete?.();
     }, 1320);
   }, [phase, onComplete]);
 
-  // Input Listeners: Mouse Wheel, Touchpad swipe, Mobile drag, Keyboard
+  // Input Listeners: strictly opens only on SCROLL or mobile touch swipe or keyboard navigation
   useEffect(() => {
     if (phase !== 'idle') return;
 
@@ -440,11 +368,9 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
       }
     };
 
-    // Keyboard keys (Enter, Space, ArrowDown, Esc)
+    // Keyboard keys (Enter, Space, ArrowDown, PageDown)
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleSkip();
-      } else if (
+      if (
         e.key === 'Enter' ||
         e.key === ' ' ||
         e.key === 'ArrowDown' ||
@@ -466,7 +392,7 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [phase, handleUnseal, handleSkip]);
+  }, [phase, handleUnseal]);
 
   if (phase === 'done') return null;
 
@@ -475,11 +401,9 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[99999] overflow-hidden select-none cursor-pointer"
-      onClick={handleUnseal}
-      role="button"
-      tabIndex={0}
-      aria-label="Click or scroll to crack and unseal the AI Quantum Vault"
+      className="fixed inset-0 z-[99999] overflow-hidden select-none"
+      role="region"
+      aria-label="AI Quantum Vault Intro"
     >
       {/* ==============================================================
           LEFT CYBER-GATE (Left 0% to 50%)
@@ -598,14 +522,9 @@ export function PortfolioIntro({ onComplete }: PortfolioIntroProps) {
                 className="text-white/60 group-hover:text-[#4deeea] animate-bounce"
               />
             </button>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-white/40">
-              OR CLICK ANYWHERE TO ENTER
-            </span>
           </motion.div>
         )}
       </AnimatePresence>
-
-
     </div>
   );
 }
